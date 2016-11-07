@@ -1,7 +1,7 @@
 package donnee;
 
 public enum NatureTerrain {
-	EUA,
+	EAU,
 	FORET,
 	ROCHE,
 	TERRAIN_LIBRE,

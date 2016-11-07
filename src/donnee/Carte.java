@@ -54,6 +54,10 @@ public class Carte {
 		return null;
 	}
 
+	public void addCase(int lig, int col, NatureTerrain nature) {
+		this.cases.get(lig).add(col, new Case(lig, col, nature));
+	}
+	
 	public boolean voisinExiste(Case src, Direction dir) {
 		if (this.getVoisin(src, dir) != null)
 			return true;

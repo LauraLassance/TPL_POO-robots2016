@@ -4,26 +4,29 @@ public class Incendie {
 	
 	private Case localisation;
 	
-	private int litresEauNecessaire;
+	/**
+	 * intensite = nombre de litres d'eau necessaire pour eteindre l'incendie
+	 */
+	private int intensite;
 	
-	public Incendie(Case localisation, int litresEauNecessaire) {
+	public Incendie(Case localisation, int intensite) {
 		this.localisation = localisation;
-		this.litresEauNecessaire = litresEauNecessaire;
+		this.intensite = intensite;
 	}
 
 	public Case getLocalisation() {
 		return localisation;
 	}
 
-	public int getLitresEauNecessaire() {
-		return litresEauNecessaire;
+	public int getIntensite() {
+		return intensite;
 	}
 	
 	public void eteindreIncendie(int vol) {
-		if (vol > this.litresEauNecessaire)
-			this.litresEauNecessaire = 0;
+		if (vol > this.intensite)
+			this.intensite = 0;
 		else
-			this.litresEauNecessaire -= vol;
+			this.intensite -= vol;
 	}
 	
 }
