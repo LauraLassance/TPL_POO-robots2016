@@ -96,5 +96,15 @@ public class Carte {
 		return null;
 	}
 	
+	public boolean sontVoisins(Case src, Case dst) {
+		for(Direction dir : Direction.values()) {
+			Case voisin = getVoisin(src, dir);
+			if (voisin != null)
+				if (voisin.equals(dst))
+					return true;
+		}
+		
+		return false;
+	}
 	
 }

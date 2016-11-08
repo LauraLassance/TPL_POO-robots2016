@@ -8,6 +8,12 @@ public abstract class Robot {
 	private int volumeEauReservoir;
 	private double vitesse;
 
+	public Robot(Case position, int volRes, double vitesse) {
+		this.position = position;
+		this.volumeEauReservoir = volRes;
+		this.vitesse = vitesse;
+	}
+	
 	public Case getPosition() {
 		return this.position;
 	}
@@ -23,10 +29,18 @@ public abstract class Robot {
 	
 	public abstract void seDeplacer(Case caseDesire);
 	
+	public abstract int getTempsInterventionUnitaire();
+	
 	public void deverserEau(int vol) {
 		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - vol);
 	}
 
+	/**
+	 * Deverse le volume d'eau définit pour une intervention unitaire.
+	 * @return le volume d'eau vraiment deversé
+	 */
+	public abstract int deverserEauIntervUnit();
+	
 	public abstract TypeRobot getType();
 
 	public int getVolumeEauReservoir() {
