@@ -1,12 +1,13 @@
 package robot;
 
+import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 
-public class RobotAPattes extends Robot {
+public class RobotAPattes extends RobotTerrestre {
 	
 	private static final double VITESSE_DEFAULT = 30;
-	private static final int VOL_RESERVOIR = -1; // infinit
+	private static final int VOL_RESERVOIR = -1; // infini
 	private static final int VOL_INTERV_UNIT = 10;
 	private static final int TEMPS_INTERV_UNIT = 1;
 
@@ -27,7 +28,7 @@ public class RobotAPattes extends Robot {
 	 * donc il n'a jamais rempli.
 	 */
 	@Override
-	public void remplirReservoir() {
+	public void remplirReservoir(Carte carte) {
 		// Il fait rien
 	}
 
@@ -53,6 +54,11 @@ public class RobotAPattes extends Robot {
 	@Override
 	public int deverserEauIntervUnit() {
 		return RobotAPattes.VOL_INTERV_UNIT;
+	}
+	
+	@Override
+	public int getVolumeMaxReservoir() {
+		return RobotAPattes.VOL_RESERVOIR;
 	}
 	
 }

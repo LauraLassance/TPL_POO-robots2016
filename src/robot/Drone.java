@@ -1,5 +1,6 @@
 package robot;
 
+import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 
@@ -37,7 +38,7 @@ public class Drone extends Robot {
 		super(position, Drone.VOL_RESERVOIR, (vitesse > VITESSE_MAX? VITESSE_MAX : vitesse));
 	}
 	
-	public static int getTempsremplissagemin() {
+	public static int getTempsRemplissageMin() {
 		return Drone.TEMPS_REMPLISSAGE_MIN;
 	}
 	
@@ -47,7 +48,7 @@ public class Drone extends Robot {
 	}
 
 	@Override
-	public void remplirReservoir() {
+	public void remplirReservoir(Carte carte) {
 		// TODO What to do with the time to fill it up?
 		if (this.getPosition().getNature() == NatureTerrain.EAU)
 			this.setVolumeEauReservoir(Drone.VOL_RESERVOIR);

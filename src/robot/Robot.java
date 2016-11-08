@@ -1,5 +1,6 @@
 package robot;
 
+import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 
@@ -25,7 +26,7 @@ public abstract class Robot {
 	
 	public abstract double getVitesse(NatureTerrain nature);
 	
-	public abstract void remplirReservoir();
+	public abstract void remplirReservoir(Carte carte);
 	
 	public abstract void seDeplacer(Case caseDesire);
 	

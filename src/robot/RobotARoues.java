@@ -3,7 +3,7 @@ package robot;
 import donnee.Case;
 import donnee.NatureTerrain;
 
-public class RobotARoues extends Robot {
+public class RobotARoues extends RobotTerrestre {
 
 	private static final double VITESSE_DEFAULT = 80;
 	private static final int VOL_RESERVOIR = 5000;
@@ -26,19 +26,13 @@ public class RobotARoues extends Robot {
 		super(position, RobotARoues.VOL_RESERVOIR, vitesse);
 	}
 
-	public static int getTempsremplissagemin() {
+	public static int getTempsRemplissageMin() {
 		return RobotARoues.TEMPS_REMPLISSAGE_MIN;
 	}
 	
 	@Override
 	public double getVitesse(NatureTerrain nature) {
 		return this.getVitesse();
-	}
-
-	@Override
-	public void remplirReservoir() {
-		// TODO What to do with the time to fill it up? How to have access to the neighbors?
-		this.setVolumeEauReservoir(RobotARoues.VOL_RESERVOIR);
 	}
 
 	/**
@@ -72,5 +66,10 @@ public class RobotARoues extends Robot {
 			
 		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - RobotARoues.VOL_INTERV_UNIT);
 		return RobotARoues.VOL_INTERV_UNIT;
+	}
+	
+	@Override
+	public int getVolumeMaxReservoir() {
+		return RobotARoues.VOL_RESERVOIR;
 	}
 }

@@ -3,17 +3,17 @@ package robot;
 import donnee.Case;
 import donnee.NatureTerrain;
 
-public class RobotAChenilles extends Robot {
+public class RobotAChenilles extends RobotTerrestre {
 	
 	private static final double VITESSE_MAX = 80;
 	private static final double VITESSE_DEFAULT = 60;
-	private static final int VOL_RESERVOIRE = 2000;
+	private static final int VOL_RESERVOIR = 2000;
 	private static final int TEMPS_REMPLISSAGE_MIN = 5;
 	private static final int TEMPS_INTERV_UNIT = 8;
 	private static final int VOL_INTERV_UNIT = 100;
 	
 	public RobotAChenilles(Case position) {
-		super(position, RobotAChenilles.VOL_RESERVOIRE, 
+		super(position, RobotAChenilles.VOL_RESERVOIR, 
 							RobotAChenilles.VITESSE_DEFAULT);
 	}
 	
@@ -25,7 +25,7 @@ public class RobotAChenilles extends Robot {
 	 * @param vitesse Vitesse de déplacement du drone
 	 */
 	public RobotAChenilles(Case position, double vitesse) {
-		super(position, RobotAChenilles.VOL_RESERVOIRE, 
+		super(position, RobotAChenilles.VOL_RESERVOIR, 
 						(vitesse > RobotAChenilles.VITESSE_MAX? 
 							RobotAChenilles.VITESSE_MAX : vitesse));
 	}
@@ -51,7 +51,7 @@ public class RobotAChenilles extends Robot {
 		return RobotAChenilles.TEMPS_INTERV_UNIT;
 	}
 	
-	public static int getTempsremplissagemin() {
+	public static int getTempsRemplissageMin() {
 		return RobotAChenilles.TEMPS_REMPLISSAGE_MIN;
 	}
 	
@@ -64,12 +64,6 @@ public class RobotAChenilles extends Robot {
 			
 		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - RobotAChenilles.VOL_INTERV_UNIT);
 		return RobotAChenilles.VOL_INTERV_UNIT;
-	}
-	
-	@Override
-	public void remplirReservoir() {
-		// TODO What to do with the time to fill it up? How to have access to the neighbors?
-		this.setVolumeEauReservoir(RobotAChenilles.VOL_RESERVOIRE);
 	}
 
 	/**
@@ -84,6 +78,11 @@ public class RobotAChenilles extends Robot {
 		if ((caseDesire.getNature() != NatureTerrain.EAU) &&
 			(caseDesire.getNature() != NatureTerrain.ROCHE))
 			this.setPosition(caseDesire);
+	}
+	
+	@Override
+	public int getVolumeMaxReservoir() {
+		return RobotAChenilles.VOL_RESERVOIR;
 	}
 	
 }
