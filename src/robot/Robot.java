@@ -28,7 +28,7 @@ public abstract class Robot {
 	
 	public abstract void remplirReservoir(Carte carte);
 	
-	public abstract void seDeplacer(Case caseDesire);
+	public abstract void seDeplacer(Case caseDesire, Carte carte);
 	
 	public abstract int getTempsInterventionUnitaire();
 	
@@ -43,7 +43,9 @@ public abstract class Robot {
 	public abstract int deverserEauIntervUnit();
 	
 	public abstract TypeRobot getType();
-
+	
+	public abstract int getVolumeMaxReservoir();
+	
 	public int getVolumeEauReservoir() {
 		return volumeEauReservoir;
 	}
@@ -55,5 +57,7 @@ public abstract class Robot {
 	public double getVitesse() {
 		return vitesse;
 	}
+	
+	public abstract String getRobotImageName();
 	
 }

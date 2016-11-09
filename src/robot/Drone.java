@@ -10,7 +10,7 @@ import donnee.NatureTerrain;
  * @author lauralassance
  *
  */
-public class Drone extends Robot {
+public class Drone extends RobotAerien {
 
 	private static final double VITESSE_MAX = 150;
 	private static final double VITESSE_DEFAULT = 100;
@@ -47,13 +47,6 @@ public class Drone extends Robot {
 		return this.getVitesse();
 	}
 
-	@Override
-	public void remplirReservoir(Carte carte) {
-		// TODO What to do with the time to fill it up?
-		if (this.getPosition().getNature() == NatureTerrain.EAU)
-			this.setVolumeEauReservoir(Drone.VOL_RESERVOIR);
-	}
-
 	/**
 	 * Déplace le drone pour la caseDesiree. La vérification si la case
 	 * courante et la destination sont voisins est faite dans la classe de
@@ -61,8 +54,9 @@ public class Drone extends Robot {
 	 * @param caseDesiree Case pour laquelle le drone se déplace
 	 */
 	@Override
-	public void seDeplacer(Case caseDesiree) {
-		this.setPosition(caseDesiree);
+	public void seDeplacer(Case caseDesiree, Carte carte) {
+		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+			this.setPosition(caseDesiree);
 	}
 	
 	@Override
@@ -78,5 +72,15 @@ public class Drone extends Robot {
 	public int deverserEauIntervUnit() {
 		this.setVolumeEauReservoir(0);
 		return Drone.VOL_RESERVOIR;
+	}
+	
+	@Override
+	public int getVolumeMaxReservoir() {
+		return Drone.VOL_RESERVOIR;
+	}
+
+	@Override
+	public String getRobotImageName() {
+		return "../images/drone.gif";
 	}
 }

@@ -19,11 +19,11 @@ public class Carte {
 		
 		this.cases = new Vector<Vector<Case>>(this.nbLignes);
 		for (int i = 0; i < this.nbColonnes; i++)
-			this.cases.set(i, new Vector<Case>(this.nbColonnes));
+			this.cases.addElement(new Vector<Case>(this.nbColonnes));
 	}
 	
 	public void Evenement(long date) {
-		// TODO
+		// TODO Evenement
 	}
 	
 	public int getNbLignes() {

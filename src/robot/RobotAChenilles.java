@@ -1,5 +1,6 @@
 package robot;
 
+import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 
@@ -54,17 +55,6 @@ public class RobotAChenilles extends RobotTerrestre {
 	public static int getTempsRemplissageMin() {
 		return RobotAChenilles.TEMPS_REMPLISSAGE_MIN;
 	}
-	
-	public int deverserEauIntervUnit() {
-		if (this.getVolumeEauReservoir() < RobotAChenilles.VOL_INTERV_UNIT) {
-			int volDeverse = this.getVolumeEauReservoir();
-			this.setVolumeEauReservoir(0);
-			return volDeverse;
-		}
-			
-		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - RobotAChenilles.VOL_INTERV_UNIT);
-		return RobotAChenilles.VOL_INTERV_UNIT;
-	}
 
 	/**
 	 * Déplace le robot pour la caseDesiree. La vérification si la case
@@ -74,15 +64,26 @@ public class RobotAChenilles extends RobotTerrestre {
 	 * @param caseDesiree Case pour laquelle le drone se déplace
 	 */
 	@Override
-	public void seDeplacer(Case caseDesire) {
-		if ((caseDesire.getNature() != NatureTerrain.EAU) &&
-			(caseDesire.getNature() != NatureTerrain.ROCHE))
-			this.setPosition(caseDesire);
+	public void seDeplacer(Case caseDesiree, Carte carte) {
+		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+			if ((caseDesiree.getNature() != NatureTerrain.EAU) &&
+				(caseDesiree.getNature() != NatureTerrain.ROCHE))
+				this.setPosition(caseDesiree);
 	}
 	
 	@Override
 	public int getVolumeMaxReservoir() {
 		return RobotAChenilles.VOL_RESERVOIR;
 	}
-	
+
+	@Override
+	public int getVolIntervUnit() {
+		return RobotAChenilles.VOL_INTERV_UNIT;
+	}
+
+	@Override
+	public String getRobotImageName() {
+		return "../images/chenilles.jpg";
+	}
+
 }

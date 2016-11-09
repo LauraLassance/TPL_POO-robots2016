@@ -7,6 +7,8 @@ import donnee.NatureTerrain;
 
 public abstract class RobotTerrestre extends Robot {
 
+	public abstract int getVolIntervUnit();
+	
 	public RobotTerrestre(Case position, int volRes, double vitesse) {
 		super(position, volRes, vitesse);
 	}
@@ -24,31 +26,16 @@ public abstract class RobotTerrestre extends Robot {
 			this.setVolumeEauReservoir(this.getVolumeMaxReservoir());
 
 	}
-	
-	public abstract int getVolumeMaxReservoir();
-
-	@Override
-	public void seDeplacer(Case caseDesire) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getTempsInterventionUnitaire() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int deverserEauIntervUnit() {
-		// TODO Auto-generated method stub
-		return 0;
+		if (this.getVolumeEauReservoir() < this.getVolIntervUnit()) {
+			int volDeverse = this.getVolumeEauReservoir();
+			this.setVolumeEauReservoir(0);
+			return volDeverse;
+		}
+			
+		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - this.getVolIntervUnit());
+		return this.getVolIntervUnit();
 	}
-
-	@Override
-	public TypeRobot getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

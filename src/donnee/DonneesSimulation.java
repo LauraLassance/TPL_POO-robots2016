@@ -49,10 +49,40 @@ public class DonneesSimulation {
 	}
 	
 	public void addRobot(int lig, int col, TypeRobot type, double vitesse) {
-		// TODO
+		Robot robot = null;
+		switch (type) {
+			case DRONE:
+				robot = new Drone(this.getCarte().getCase(lig, col));
+				break;
+			case ROUES:
+				robot = new RobotARoues(this.getCarte().getCase(lig, col),
+												vitesse);
+				break;
+			case CHENILLES:
+				robot = new RobotAChenilles(this.getCarte().getCase(lig, col), 
+												vitesse);
+				break;
+			case PATTES:
+				robot = new RobotAPattes(this.getCarte().getCase(lig, col));
+		}
+		this.robots.addElement(robot);
 	}
 	
 	public void addRobot(int lig, int col, TypeRobot type) {
-		// TODO vitesse default
+		Robot robot = null;
+		switch (type) {
+			case DRONE:
+				robot = new Drone(this.getCarte().getCase(lig, col));
+				break;
+			case ROUES:
+				robot = new RobotARoues(this.getCarte().getCase(lig, col));
+				break;
+			case CHENILLES:
+				robot = new RobotAChenilles(this.getCarte().getCase(lig, col));
+				break;
+			case PATTES:
+				robot = new RobotAPattes(this.getCarte().getCase(lig, col));
+		}
+		this.robots.addElement(robot);
 	}
 }

@@ -7,7 +7,7 @@ import donnee.NatureTerrain;
 public class RobotAPattes extends RobotTerrestre {
 	
 	private static final double VITESSE_DEFAULT = 30;
-	private static final int VOL_RESERVOIR = -1; // infini
+	private static final int VOL_RESERVOIR = Integer.MAX_VALUE; // infini
 	private static final int VOL_INTERV_UNIT = 10;
 	private static final int TEMPS_INTERV_UNIT = 1;
 
@@ -36,9 +36,10 @@ public class RobotAPattes extends RobotTerrestre {
 	 * Ne peut pas se rendre sur de l’eau.
 	 */
 	@Override
-	public void seDeplacer(Case caseDesire) {
-		if (caseDesire.getNature() != NatureTerrain.EAU)
-			this.setPosition(caseDesire);
+	public void seDeplacer(Case caseDesiree, Carte carte) {
+		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+			if (caseDesiree.getNature() != NatureTerrain.EAU)
+				this.setPosition(caseDesiree);
 	}
 	
 	@Override
@@ -51,6 +52,10 @@ public class RobotAPattes extends RobotTerrestre {
 		return RobotAPattes.TEMPS_INTERV_UNIT;
 	}
 
+	/**
+	 * Le reservoir de ce robot est infini. Donc, même quand il fait une
+	 * intervention unitaire, le volume de son reservoire ne change pas.
+	 */
 	@Override
 	public int deverserEauIntervUnit() {
 		return RobotAPattes.VOL_INTERV_UNIT;
@@ -59,6 +64,16 @@ public class RobotAPattes extends RobotTerrestre {
 	@Override
 	public int getVolumeMaxReservoir() {
 		return RobotAPattes.VOL_RESERVOIR;
+	}
+
+	@Override
+	public int getVolIntervUnit() {
+		return RobotAPattes.VOL_INTERV_UNIT;
+	}
+
+	@Override
+	public String getRobotImageName() {	
+		return "../images/pattes.jpg";
 	}
 	
 }

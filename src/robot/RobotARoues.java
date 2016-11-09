@@ -1,5 +1,6 @@
 package robot;
 
+import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 
@@ -39,11 +40,11 @@ public class RobotARoues extends RobotTerrestre {
 	 * Ne peut se déplacer que sur du terrain libre ou habitat.
 	 */
 	@Override
-	public void seDeplacer(Case caseDesiree) {
-		if ((caseDesiree.getNature() == NatureTerrain.TERRAIN_LIBRE) || 
-			(caseDesiree.getNature() == NatureTerrain.HABITAT))
-			this.setPosition(caseDesiree);
-
+	public void seDeplacer(Case caseDesiree, Carte carte) {
+		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+			if ((caseDesiree.getNature() == NatureTerrain.TERRAIN_LIBRE) || 
+				(caseDesiree.getNature() == NatureTerrain.HABITAT))
+				this.setPosition(caseDesiree);
 	}
 
 	@Override
@@ -55,21 +56,19 @@ public class RobotARoues extends RobotTerrestre {
 	public int getTempsInterventionUnitaire() {
 		return RobotARoues.TEMPS_INTERV_UNIT;
 	}
-
-	@Override
-	public int deverserEauIntervUnit() {
-		if (this.getVolumeEauReservoir() < RobotARoues.VOL_INTERV_UNIT) {
-			int volDeverse = this.getVolumeEauReservoir();
-			this.setVolumeEauReservoir(0);
-			return volDeverse;
-		}
-			
-		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - RobotARoues.VOL_INTERV_UNIT);
-		return RobotARoues.VOL_INTERV_UNIT;
-	}
 	
 	@Override
 	public int getVolumeMaxReservoir() {
 		return RobotARoues.VOL_RESERVOIR;
+	}
+
+	@Override
+	public int getVolIntervUnit() {
+		return RobotARoues.VOL_INTERV_UNIT;
+	}
+
+	@Override
+	public String getRobotImageName() {
+		return "../images/roues.gif";
 	}
 }
