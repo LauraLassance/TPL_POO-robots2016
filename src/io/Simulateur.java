@@ -128,13 +128,20 @@ public class Simulateur implements Simulable {
     private void drawRobot(Robot robot, int taille) {
     	// TODO verify if it is important to have an ImageObserver. If yes, verify
     	//		which one
+//    	gui.addGraphicalElement(
+//    			new ImageElement(robot.getPosition().getColonne()*taille + taille / 2,
+//    							 robot.getPosition().getLigne()*taille + taille / 2,
+//    							 robot.getRobotImageName(),
+//    							 taille,
+//    							 taille,
+//    							 null));
     	gui.addGraphicalElement(
-    			new ImageElement(robot.getPosition().getColonne()*taille + taille / 2,
-    							 robot.getPosition().getLigne()*taille + taille / 2,
-    							 robot.getRobotImageName(),
-    							 taille,
-    							 taille,
-    							 null));
+    			new Rectangle(robot.getPosition().getColonne()*taille + taille / 2,
+    						  robot.getPosition().getLigne()*taille + taille / 2,
+//    						  robot.getRobotColor(),
+    						  Color.WHITE,
+    						  robot.getRobotColor(),
+    						  taille));
     }
     
 }

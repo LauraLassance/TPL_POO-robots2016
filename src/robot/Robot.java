@@ -1,5 +1,7 @@
 package robot;
 
+import java.awt.Color;
+
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
@@ -59,5 +61,7 @@ public abstract class Robot {
 	}
 	
 	public abstract String getRobotImageName();
+	
+	public abstract Color getRobotColor();
 	
 }

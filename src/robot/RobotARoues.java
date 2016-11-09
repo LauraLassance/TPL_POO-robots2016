@@ -1,5 +1,7 @@
 package robot;
 
+import java.awt.Color;
+
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
@@ -70,5 +72,10 @@ public class RobotARoues extends RobotTerrestre {
 	@Override
 	public String getRobotImageName() {
 		return "../images/roues.gif";
+	}
+
+	@Override
+	public Color getRobotColor() {
+		return Color.PINK;
 	}
 }

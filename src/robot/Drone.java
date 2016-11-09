@@ -1,5 +1,7 @@
 package robot;
 
+import java.awt.Color;
+
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
@@ -83,4 +85,11 @@ public class Drone extends RobotAerien {
 	public String getRobotImageName() {
 		return "../images/drone.gif";
 	}
+
+	@Override
+	public Color getRobotColor() {
+		return Color.ORANGE;
+	}
+	
+	
 }
