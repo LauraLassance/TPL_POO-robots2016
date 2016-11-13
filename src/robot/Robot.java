@@ -5,6 +5,7 @@ import java.awt.Color;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import exception.ReservoirPleinException;
 
 public abstract class Robot {
 	private Case position;
@@ -28,11 +29,13 @@ public abstract class Robot {
 	
 	public abstract double getVitesse(NatureTerrain nature);
 	
-	public abstract void remplirReservoir(Carte carte);
+	public abstract void remplirReservoir(Carte carte) throws ReservoirPleinException;
 	
 	public abstract void seDeplacer(Case caseDesire, Carte carte);
 	
 	public abstract int getTempsInterventionUnitaire();
+	
+	public abstract int getTempsRemplissage();
 	
 	public void deverserEau(int vol) {
 		this.setVolumeEauReservoir(this.getVolumeEauReservoir() - vol);
@@ -48,6 +51,10 @@ public abstract class Robot {
 	
 	public abstract int getVolumeMaxReservoir();
 	
+	public abstract String getRobotImageName();
+	
+	public abstract Color getRobotColor();
+	
 	public int getVolumeEauReservoir() {
 		return volumeEauReservoir;
 	}
@@ -59,9 +66,5 @@ public abstract class Robot {
 	public double getVitesse() {
 		return vitesse;
 	}
-	
-	public abstract String getRobotImageName();
-	
-	public abstract Color getRobotColor();
 	
 }

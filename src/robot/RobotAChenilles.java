@@ -11,7 +11,7 @@ public class RobotAChenilles extends RobotTerrestre {
 	private static final double VITESSE_MAX = 80;
 	private static final double VITESSE_DEFAULT = 60;
 	private static final int VOL_RESERVOIR = 2000;
-	private static final int TEMPS_REMPLISSAGE_MIN = 5;
+	private static final int TEMPS_REMPLISSAGE = 5*60;
 	private static final int TEMPS_INTERV_UNIT = 8;
 	private static final int VOL_INTERV_UNIT = 100;
 	
@@ -54,8 +54,9 @@ public class RobotAChenilles extends RobotTerrestre {
 		return RobotAChenilles.TEMPS_INTERV_UNIT;
 	}
 	
-	public static int getTempsRemplissageMin() {
-		return RobotAChenilles.TEMPS_REMPLISSAGE_MIN;
+	@Override
+	public int getTempsRemplissage() {
+		return RobotAChenilles.TEMPS_REMPLISSAGE;
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class RobotAChenilles extends RobotTerrestre {
 
 	@Override
 	public int getVolIntervUnit() {
-		return RobotAChenilles.VOL_INTERV_UNIT;
+		return RobotAChenilles.VOL_INTERV_UNIT / RobotAChenilles.TEMPS_INTERV_UNIT;
 	}
 
 	@Override

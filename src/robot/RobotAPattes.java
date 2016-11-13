@@ -12,6 +12,7 @@ public class RobotAPattes extends RobotTerrestre {
 	private static final int VOL_RESERVOIR = Integer.MAX_VALUE; // infini
 	private static final int VOL_INTERV_UNIT = 10;
 	private static final int TEMPS_INTERV_UNIT = 1;
+	private static final int TEMPS_REMPLISSAGE = 1;
 
 	public RobotAPattes(Case position) {
 		super(position, RobotAPattes.VOL_RESERVOIR, 
@@ -70,7 +71,7 @@ public class RobotAPattes extends RobotTerrestre {
 
 	@Override
 	public int getVolIntervUnit() {
-		return RobotAPattes.VOL_INTERV_UNIT;
+		return RobotAPattes.VOL_INTERV_UNIT / RobotAPattes.TEMPS_INTERV_UNIT;
 	}
 
 	@Override
@@ -81,6 +82,11 @@ public class RobotAPattes extends RobotTerrestre {
 	@Override
 	public Color getRobotColor() {
 		return Color.YELLOW;
+	}
+
+	@Override
+	public int getTempsRemplissage() {
+		return RobotAPattes.TEMPS_REMPLISSAGE;
 	}
 	
 }

@@ -4,6 +4,7 @@ import donnee.Carte;
 import donnee.Case;
 import donnee.Direction;
 import donnee.NatureTerrain;
+import exception.ReservoirPleinException;
 
 public abstract class RobotTerrestre extends Robot {
 
@@ -14,16 +15,18 @@ public abstract class RobotTerrestre extends Robot {
 	}
 
 	@Override
-	public void remplirReservoir(Carte carte) {
-		// TODO What to do with the time to fill it up?
+	public void remplirReservoir(Carte carte) throws ReservoirPleinException {
 		boolean peutRemplir = false;
 		for (Direction dir : Direction.values()) {
 			Case voisin = carte.getVoisin(this.getPosition(), dir);
 			if (voisin.getNature() == NatureTerrain.EAU)
 				peutRemplir = true;
 		}
+		
 		if (peutRemplir)
 			this.setVolumeEauReservoir(this.getVolumeMaxReservoir());
+		else
+			throw new ReservoirPleinException("[Remplissage] Le robot terrestre a déjà le reservoir plein.");
 
 	}
 

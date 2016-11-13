@@ -65,7 +65,9 @@ public class Carte {
 	}
 	
 	/**
-	 * Returns the neighbor of case src in the direction dir.
+	 * Returns the neighbor of case src in the direction dir. If there's no
+	 * neighbor, a null will be returned.
+	 * With this, this method can be used to verify if a neighbor exists.
 	 * @param src The case of which neighbor is wanted
 	 * @param dir Direction of the neighbor wanted
 	 * @return The neighbor of src in the direction dir or null if it doesn't 
@@ -96,6 +98,12 @@ public class Carte {
 		return null;
 	}
 	
+	/**
+	 * Verifies if the two cases (src and dst) are neighbors
+	 * @param src Case source
+	 * @param dst Case destiny
+	 * @return Whether the two cases are neighbors or not
+	 */
 	public boolean sontVoisins(Case src, Case dst) {
 		for(Direction dir : Direction.values()) {
 			Case voisin = getVoisin(src, dir);
@@ -106,5 +114,7 @@ public class Carte {
 		
 		return false;
 	}
+	
+	
 	
 }

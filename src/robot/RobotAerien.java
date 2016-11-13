@@ -3,6 +3,7 @@ package robot;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import exception.ReservoirPleinException;
 
 public abstract class RobotAerien extends Robot {
 
@@ -11,9 +12,10 @@ public abstract class RobotAerien extends Robot {
 	}
 
 	@Override
-	public void remplirReservoir(Carte carte) {
-		// TODO What to do with the time to fill it up?
+	public void remplirReservoir(Carte carte) throws ReservoirPleinException {
 		if (this.getPosition().getNature() == NatureTerrain.EAU)
 			this.setVolumeEauReservoir(this.getVolumeMaxReservoir());
+		else
+			throw new ReservoirPleinException("[Remplissage] Le robot aerien a déjà le reservoir plein.");
 	}
 }

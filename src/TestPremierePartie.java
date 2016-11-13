@@ -2,12 +2,12 @@ import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 
-import donnee.DonneesSimulation;
 import gui.GUISimulator;
-import io.LecteurDonnees;
 import io.Simulateur;
 
 public class TestPremierePartie {
+	
+	private final static int tailleSimulateur = 600;
 
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -16,14 +16,15 @@ public class TestPremierePartie {
         }
 
         try {
-            DonneesSimulation donnees = LecteurDonnees.lire(args[0]);
+            GUISimulator gui = new GUISimulator(TestPremierePartie.tailleSimulateur, 
+            									TestPremierePartie.tailleSimulateur, 
+            									Color.BLACK);
             
-            GUISimulator gui = new GUISimulator(
-            		donnees.getCarte().getTailleCases() * donnees.getCarte().getNbColonnes(), 
-            		donnees.getCarte().getTailleCases() * donnees.getCarte().getNbLignes(), 
-            		Color.BLACK);
-            
-            Simulateur simulation = new Simulateur(gui, donnees, Color.BLACK);
+            Simulateur simulation = new Simulateur(gui,
+            									   args[0],
+            									   Color.BLACK,
+            									   TestPremierePartie.tailleSimulateur,             									  
+            									   TestPremierePartie.tailleSimulateur);
             
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

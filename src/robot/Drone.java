@@ -17,8 +17,8 @@ public class Drone extends RobotAerien {
 	private static final double VITESSE_MAX = 150;
 	private static final double VITESSE_DEFAULT = 100;
 	private static final int VOL_RESERVOIR = 10000;
-	private static final int TEMPS_REMPLISSAGE_MIN = 30;
-	private static final int TEMPS_VIDE_SEC = 30;
+	private static final int TEMPS_REMPLISSAGE = 30*60;
+	private static final int TEMPS_INTERV_UNIT = 30;
 	
 	
 	/**
@@ -40,8 +40,9 @@ public class Drone extends RobotAerien {
 		super(position, Drone.VOL_RESERVOIR, (vitesse > VITESSE_MAX? VITESSE_MAX : vitesse));
 	}
 	
-	public static int getTempsRemplissageMin() {
-		return Drone.TEMPS_REMPLISSAGE_MIN;
+	@Override
+	public int getTempsRemplissage() {
+		return Drone.TEMPS_REMPLISSAGE;
 	}
 	
 	@Override
@@ -68,12 +69,19 @@ public class Drone extends RobotAerien {
 
 	@Override
 	public int getTempsInterventionUnitaire() {
-		return Drone.TEMPS_VIDE_SEC;
+		return Drone.TEMPS_INTERV_UNIT;
 	}
 	
+	/**
+	 * Pour out an amount of water from the robot reservatory that corresponds
+	 * to one unit of time (1 second). 
+	 * @return Volume of water that was really poured out
+	 */
+	@Override
 	public int deverserEauIntervUnit() {
-		this.setVolumeEauReservoir(0);
-		return Drone.VOL_RESERVOIR;
+		int volADeverser = Drone.VOL_RESERVOIR / Drone.TEMPS_INTERV_UNIT;
+		this.setVolumeEauReservoir(this.getVolumeEauReservoir()-volADeverser);
+		return volADeverser;
 	}
 	
 	@Override
@@ -90,6 +98,5 @@ public class Drone extends RobotAerien {
 	public Color getRobotColor() {
 		return Color.ORANGE;
 	}
-	
 	
 }

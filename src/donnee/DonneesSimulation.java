@@ -1,13 +1,15 @@
 package donnee;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import robot.*;
 
 public class DonneesSimulation {
-	private Vector<Incendie> incendies;
+	private List<Incendie> incendies;
 	private Carte carte;
-	private Vector<Robot> robots;
+	private List<Robot> robots;
 	
 	public DonneesSimulation() {
 		this.incendies = null;
@@ -15,7 +17,7 @@ public class DonneesSimulation {
 		this.robots = null;
 	}
 
-	public Vector<Incendie> getIncendies() {
+	public List<Incendie> getIncendies() {
 		return incendies;
 	}
 
@@ -23,12 +25,12 @@ public class DonneesSimulation {
 		return carte;
 	}
 
-	public Vector<Robot> getRobots() {
+	public List<Robot> getRobots() {
 		return robots;
 	}
 	
 	public void creerIncendies(int nbIncendies) {
-		this.incendies = new Vector<Incendie>(nbIncendies);
+		this.incendies = new ArrayList<Incendie>(nbIncendies);
 	}
 	
 	public void creerCarte(int tailleCases, int nbLignes, int nbColonnes) {
@@ -36,7 +38,7 @@ public class DonneesSimulation {
 	}
 	
 	public void creerRobots(int nbRobots) {
-		this.robots = new Vector<Robot>(nbRobots);
+		this.robots = new ArrayList<Robot>(nbRobots);
 	}
 	
 	public void addCase(int lig, int col, NatureTerrain nature) {
@@ -45,7 +47,7 @@ public class DonneesSimulation {
 	
 	public void addIncendie(int lig, int col, int intensite) {
 		Incendie nouveauIncendie = new Incendie(this.getCarte().getCase(lig, col), intensite);
-		this.incendies.addElement(nouveauIncendie);
+		this.incendies.add(nouveauIncendie);
 	}
 	
 	public void addRobot(int lig, int col, TypeRobot type, double vitesse) {
@@ -65,7 +67,7 @@ public class DonneesSimulation {
 			case PATTES:
 				robot = new RobotAPattes(this.getCarte().getCase(lig, col));
 		}
-		this.robots.addElement(robot);
+		this.robots.add(robot);
 	}
 	
 	public void addRobot(int lig, int col, TypeRobot type) {
@@ -83,6 +85,6 @@ public class DonneesSimulation {
 			case PATTES:
 				robot = new RobotAPattes(this.getCarte().getCase(lig, col));
 		}
-		this.robots.addElement(robot);
+		this.robots.add(robot);
 	}
 }
