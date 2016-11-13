@@ -30,7 +30,7 @@ testLecture:
 	javac -d bin -sourcepath src src/TestLecteurDonnees.java
 
 testPremierePartie:
-	javac -d bin -sourcepath src src/TestPremierePartie.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestPremierePartie.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
