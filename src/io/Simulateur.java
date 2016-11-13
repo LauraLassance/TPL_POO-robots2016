@@ -128,13 +128,10 @@ public class Simulateur implements Simulable {
 					} catch (DehorsDeLaFrontiereException e) {
 						// TODO Open dialog to say show message
 						System.out.println(e.getMessage());
-						e.printStackTrace();
 					} catch (ReservoirPleinException e) {
 						System.out.println(e.getMessage());
-						e.printStackTrace();
     				} catch (Exception e) {
     					System.out.println(e.getMessage());
-    					e.printStackTrace();
 					}
 				} else
 					memeDate = false;
