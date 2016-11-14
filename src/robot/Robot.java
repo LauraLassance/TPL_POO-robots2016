@@ -31,6 +31,8 @@ public abstract class Robot {
 	
 	public abstract void remplirReservoir(Carte carte) throws ReservoirPleinException;
 	
+	public abstract boolean peutSeDeplacer(NatureTerrain nature);
+	
 	public abstract void seDeplacer(Case caseDesire, Carte carte);
 	
 	public abstract int getTempsInterventionUnitaire();

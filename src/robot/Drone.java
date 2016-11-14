@@ -49,7 +49,7 @@ public class Drone extends RobotAerien {
 	public double getVitesse(NatureTerrain nature) {
 		return this.getVitesse();
 	}
-
+	
 	/**
 	 * Déplace le drone pour la caseDesiree. La vérification si la case
 	 * courante et la destination sont voisins est faite dans la classe de
@@ -97,6 +97,16 @@ public class Drone extends RobotAerien {
 	@Override
 	public Color getRobotColor() {
 		return Color.ORANGE;
+	}
+
+	/**
+	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
+	 * @param [in] prend en entrée la nature du terrain sur laquelle il veut se deplacer.
+	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
+	 */
+	@Override
+	public boolean peutSeDeplacer(NatureTerrain nature) {		
+		return true;
 	}
 	
 }

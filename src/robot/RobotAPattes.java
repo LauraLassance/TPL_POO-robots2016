@@ -88,5 +88,16 @@ public class RobotAPattes extends RobotTerrestre {
 	public int getTempsRemplissage() {
 		return RobotAPattes.TEMPS_REMPLISSAGE;
 	}
+
+	/**
+	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
+	 * @param [in] prend en entrée la nature du terrain sur laquelle il veut se deplacer.
+	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
+	 */
+	
+	@Override
+	public boolean peutSeDeplacer(NatureTerrain nature) {
+		return (nature != NatureTerrain.EAU);
+	}
 	
 }
