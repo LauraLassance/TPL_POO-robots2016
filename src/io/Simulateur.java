@@ -57,14 +57,15 @@ public class Simulateur implements Simulable {
      * @param gui l'interface graphique associée, dans laquelle se fera le
      * dessin et qui enverra les messages via les méthodes héritées de
      * Simulable.
-     * @param nomFicher nom du fichier où il y a les données de la simulaion
+     * @param nomFichier nom du fichier où il y a les données de la simulaion
      * @param bkgColor la couleur de fond
      * @param largeur Largeur de la fenêtre
      * @param hauteur Hauteur de la fenêtre
-     * @throws DataFormatException 
-     * @throws FileNotFoundException 
+     * @throws DataFormatException  Si le format du fichier ou de ses donnees est invalide 
+     * @throws FileNotFoundException Si le nom du fichier est inconnu ou illesible
      */
-    public Simulateur(GUISimulator gui, String nomFichier, Color bkgColor, int largeur, int hauteur) throws FileNotFoundException, DataFormatException {
+    public Simulateur(GUISimulator gui, String nomFichier, Color bkgColor, int largeur, int hauteur) 
+    											throws FileNotFoundException, DataFormatException {
         this.gui = gui;
         gui.setSimulable(this);				// association a la gui!
         

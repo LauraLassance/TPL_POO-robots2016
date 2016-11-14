@@ -43,6 +43,8 @@ public class LecteurDonnees {
      * LecteurDonnees.lire(fichierDonnees)
      * @param fichierDonnees nom du fichier à lire
      * @return donnees objet qui contient les cases, robots et incendies lus du fichier
+     * @throws FileNotFoundException Si le nom du fichier est inconnu ou illesible
+     * @throws DataFormatException Si le format du fichier ou de ses donnees est invalide 
      */
     public static DonneesSimulation lire(String fichierDonnees)
         throws FileNotFoundException, DataFormatException {

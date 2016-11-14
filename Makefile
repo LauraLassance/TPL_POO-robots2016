@@ -21,22 +21,25 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
-all: testInvader testLecture testPremierePartie testScenario1Partie2 testScenario2Partie2
+all: javadoc testInvader testLecture testPremierePartie testScenario1Partie2 testScenario2Partie2
+
+javadoc:
+	javadoc -d doc -classpath bin:bin/gui.jar -sourcepath src/ -subpackages donnee evenement exception io robot test
 
 testInvader:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestInvader.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	javac -d bin -sourcepath src src/test/TestLecteurDonnees.java
 
 testPremierePartie:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestPremierePartie.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestPremierePartie.java
 
 testScenario1Partie2:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestScenario1Partie2.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestScenario1Partie2.java
 
 testScenario2Partie2:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestScenario2Partie2.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestScenario2Partie2.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -44,19 +47,19 @@ testScenario2Partie2:
 # ou bien lancer l'execution en passant par ce Makefile:
 #   > make exeInvader
 exeInvader: 
-	java -classpath bin:bin/gui.jar TestInvader
+	java -classpath bin:bin/gui.jar test/TestInvader
 
 exeLecture: 
-	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
+	java -classpath bin test/TestLecteurDonnees cartes/carteSujet.map
 
 exePremierePartie:
-	java -classpath bin:bin/gui.jar TestPremierePartie cartes/carteSujet.map
+	java -classpath bin:bin/gui.jar test/TestPremierePartie cartes/carteSujet.map
 
 exeScenario1Partie2:
-	java -classpath bin:bin/gui.jar TestScenario1Partie2 cartes/carteSujet.map
+	java -classpath bin:bin/gui.jar test/TestScenario1Partie2 cartes/carteSujet.map
 
 exeScenario2Partie2:
-	java -classpath bin:bin/gui.jar TestScenario2Partie2 cartes/carteSujet.map
+	java -classpath bin:bin/gui.jar test/TestScenario2Partie2 cartes/carteSujet.map
 
 clean:
 	rm -rf bin/*.class
