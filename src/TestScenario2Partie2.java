@@ -51,11 +51,15 @@ public class TestScenario2Partie2 {
 									      Direction.NORD, 
 									      simulation.getDonnees().getCarte()));
 		
-		simulation.ajouteEvenements(
-				DeversementEvenement.creerDeversermentUnit(
-							date++, 
+		simulation.ajouteEvenement(
+				 new DeversementEvenement(
+							date, 
 							robot, 
 							simulation.getDonnees().getIncendies().get(3)));
+		
+		// corrige la date pour après le deversement d'eau (qui prend un peu
+		// de temps défini dans chaque robot)
+		date += robot.getTempsInterventionUnitaire();
 		
 		for (int i=0; i< 2; i++)
 			simulation.ajouteEvenement( 
@@ -64,10 +68,13 @@ public class TestScenario2Partie2 {
 										  Direction.OUEST, 
 										  simulation.getDonnees().getCarte()));
 		
-		simulation.ajouteEvenements(
-				RemplirEvenement.creerRemplissageUnit(date++,
-													  robot, 
-													  simulation.getDonnees().getCarte()));
+		simulation.ajouteEvenement( 
+					new RemplirEvenement(date,
+										 robot,
+										 simulation.getDonnees().getCarte()));
+		// corrige la date pour après la remplissage du reservoir (qui prend
+		// un peu de temps défini dans chaque robot)
+		date += robot.getTempsRemplissage();
 		
 		for (int i=0; i< 2; i++)
 			simulation.ajouteEvenement( 
@@ -76,11 +83,11 @@ public class TestScenario2Partie2 {
 										  Direction.EST, 
 										  simulation.getDonnees().getCarte()));
 		
-		simulation.ajouteEvenements(
-				DeversementEvenement.creerDeversermentUnit(
-							date++, 
-							robot, 
-							simulation.getDonnees().getIncendies().get(3)));
+		simulation.ajouteEvenement(
+				 new DeversementEvenement(
+						 	  date, 
+							  robot,
+							  simulation.getDonnees().getIncendies().get(3)));
 		
 	}
 }

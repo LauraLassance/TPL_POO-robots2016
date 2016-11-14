@@ -1,9 +1,5 @@
 package evenement;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import donnee.Incendie;
 import robot.Robot;
 
@@ -16,7 +12,7 @@ public class DeversementEvenement extends Evenement {
 	private Incendie incendie;
 	
 	public DeversementEvenement(long date, Robot robot, Incendie incendie) {
-		super(date);
+		super(date+robot.getTempsInterventionUnitaire()-1);
 		this.robot = robot;
 		this.incendie = incendie;
 	}
@@ -30,18 +26,4 @@ public class DeversementEvenement extends Evenement {
 		int volumeEau = this.robot.deverserEauIntervUnit();
 		this.incendie.eteindreIncendie(volumeEau);
 	}
-	
-	public static List<Evenement> creerDeversermentUnit(long date, Robot robot, Incendie incendie) {
-		ArrayList<Evenement> list = new ArrayList<Evenement>();
-		int temps = robot.getTempsInterventionUnitaire();
-		
-		for(int i=0; i< temps; i++) {
-			list.add(new DeversementEvenement(date+i, robot, incendie));
-		}
-		
-		Collections.sort(list);
-		
-		return list;
-	}
-
 }

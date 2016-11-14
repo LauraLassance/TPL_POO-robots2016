@@ -81,7 +81,7 @@ public class RobotAChenilles extends RobotTerrestre {
 
 	@Override
 	public int getVolIntervUnit() {
-		return RobotAChenilles.VOL_INTERV_UNIT / RobotAChenilles.TEMPS_INTERV_UNIT;
+		return RobotAChenilles.VOL_INTERV_UNIT;
 	}
 
 	@Override

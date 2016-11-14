@@ -71,7 +71,7 @@ public class RobotAPattes extends RobotTerrestre {
 
 	@Override
 	public int getVolIntervUnit() {
-		return RobotAPattes.VOL_INTERV_UNIT / RobotAPattes.TEMPS_INTERV_UNIT;
+		return RobotAPattes.VOL_INTERV_UNIT;
 	}
 
 	@Override

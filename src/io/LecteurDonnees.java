@@ -48,13 +48,11 @@ public class LecteurDonnees {
         throws FileNotFoundException, DataFormatException {
         
     	
-    	System.out.println("\n == Lecture du fichier" + fichierDonnees);
         LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
         lecteur.lireCarte();
         lecteur.lireIncendies();
         lecteur.lireRobots();
         scanner.close();
-        System.out.println("\n == Lecture terminee");
         
         return donnees;
     }
@@ -89,9 +87,6 @@ public class LecteurDonnees {
             int nbLignes = scanner.nextInt();
             int nbColonnes = scanner.nextInt();
             int tailleCases = scanner.nextInt();	// en m
-            
-            System.out.println("Carte " + nbLignes + "x" + nbColonnes
-                    + "; taille des cases = " + tailleCases);
 
             donnees.creerCarte(tailleCases, nbLignes, nbColonnes);
             
@@ -115,7 +110,6 @@ public class LecteurDonnees {
      */
     private void lireCase(int lig, int col) throws DataFormatException {
         ignorerCommentaires();
-        System.out.print("Case (" + lig + "," + col + "): ");
         String chaineNature = new String();
 
         try {
@@ -124,7 +118,6 @@ public class LecteurDonnees {
 
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
             
-            System.out.print("nature = " + chaineNature);
             donnees.addCase(lig, col, nature);
 
         } catch (NoSuchElementException e) {
@@ -135,7 +128,6 @@ public class LecteurDonnees {
                     + "Nature de terrain specifiée,"+chaineNature+" , n'existe pas");
         }
 
-        System.out.println();
     }
 
 
@@ -147,7 +139,6 @@ public class LecteurDonnees {
         ignorerCommentaires();
         try {
             int nbIncendies = scanner.nextInt();
-            System.out.println("Nb d'incendies = " + nbIncendies);
             donnees.creerIncendies(nbIncendies);
             
             for (int i = 0; i < nbIncendies; i++) {
@@ -167,7 +158,6 @@ public class LecteurDonnees {
      */
     private void lireIncendie(int i) throws DataFormatException {
         ignorerCommentaires();
-        System.out.print("Incendie " + i + ": ");
 
         try {
             int lig = scanner.nextInt();
@@ -179,8 +169,6 @@ public class LecteurDonnees {
             }
             verifieLigneTerminee();
 
-            System.out.println("position = (" + lig + "," + col
-                    + ");\t intensite = " + intensite);
             donnees.addIncendie(lig, col, intensite);
 
         } catch (NoSuchElementException e) {
@@ -197,7 +185,6 @@ public class LecteurDonnees {
         ignorerCommentaires();
         try {
             int nbRobots = scanner.nextInt();
-            System.out.println("Nb de robots = " + nbRobots);
             donnees.creerRobots(nbRobots);
             
             for (int i = 0; i < nbRobots; i++) {
@@ -217,34 +204,26 @@ public class LecteurDonnees {
      */
     private void lireRobot(int i) throws DataFormatException {
         ignorerCommentaires();
-        System.out.print("Robot " + i + ": ");
         String chaineType = new String();
         
         try {
             int lig = scanner.nextInt();
             int col = scanner.nextInt();
-            System.out.print("position = (" + lig + "," + col + ");");
             chaineType = scanner.next();
 
-            System.out.print("\t type = " + chaineType);
             TypeRobot type = TypeRobot.valueOf(chaineType);
 
             // lecture eventuelle d'une vitesse du robot (entier)
-            System.out.print("; \t vitesse = ");
             String s = scanner.findInLine("(\\d+)");	// 1 or more digit(s) ?
             // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
 
             if (s == null) {
-                System.out.print("valeur par defaut");
                 donnees.addRobot(lig, col, type);
             } else {
                 double vitesse = Double.parseDouble(s);
-                System.out.print(vitesse);
                 donnees.addRobot(lig, col, type, vitesse);
             }
             verifieLigneTerminee();
-
-            System.out.println();
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. "

@@ -18,7 +18,8 @@ public abstract class RobotTerrestre extends Robot {
 	public void remplirReservoir(Carte carte) throws ReservoirPleinException {
 		boolean peutRemplir = false;
 		for (Direction dir : Direction.values()) {
-			Case voisin = carte.getVoisin(this.getPosition(), dir);
+			Case src = this.getPosition();
+			Case voisin = carte.getVoisin(src, dir);
 			if (voisin.getNature() == NatureTerrain.EAU)
 				peutRemplir = true;
 		}

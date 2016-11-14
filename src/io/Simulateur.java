@@ -127,11 +127,11 @@ public class Simulateur implements Simulable {
 						
 					} catch (DehorsDeLaFrontiereException e) {
 						// TODO Open dialog to say show message
-						System.out.println(e.getMessage());
+						System.out.println("\n"+e.getMessage()+"\n");
 					} catch (ReservoirPleinException e) {
-						System.out.println(e.getMessage());
+						System.out.println("\n"+e.getMessage()+"\n");
     				} catch (Exception e) {
-    					System.out.println(e.getMessage());
+    					System.out.println("\n"+e.getMessage()+"\n");
 					}
 				} else
 					memeDate = false;

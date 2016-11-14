@@ -10,7 +10,7 @@ public class RobotARoues extends RobotTerrestre {
 
 	private static final double VITESSE_DEFAULT = 80;
 	private static final int VOL_RESERVOIR = 5000;
-	private static final int TEMPS_REMPLISSAGE = 10*60;
+	private static final int TEMPS_REMPLISSAGE = 5;
 	private static final int TEMPS_INTERV_UNIT = 5;
 	private static final int VOL_INTERV_UNIT = 100;
 	
@@ -67,7 +67,7 @@ public class RobotARoues extends RobotTerrestre {
 
 	@Override
 	public int getVolIntervUnit() {
-		return RobotARoues.VOL_INTERV_UNIT / RobotARoues.TEMPS_INTERV_UNIT;
+		return RobotARoues.VOL_INTERV_UNIT;
 	}
 
 	@Override

@@ -79,9 +79,9 @@ public class Drone extends RobotAerien {
 	 */
 	@Override
 	public int deverserEauIntervUnit() {
-		int volADeverser = Drone.VOL_RESERVOIR / Drone.TEMPS_INTERV_UNIT;
-		this.setVolumeEauReservoir(this.getVolumeEauReservoir()-volADeverser);
-		return volADeverser;
+		this.setVolumeEauReservoir(
+					this.getVolumeEauReservoir()-Drone.VOL_RESERVOIR);
+		return Drone.VOL_RESERVOIR;
 	}
 	
 	@Override
