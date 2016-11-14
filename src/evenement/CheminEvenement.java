@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 import donnee.Carte;
 import donnee.Case;
+import exception.DehorsDeLaFrontiereException;
 import robot.Robot;
 
 public abstract class CheminEvenement extends Evenement{
@@ -24,7 +25,7 @@ public abstract class CheminEvenement extends Evenement{
 		this.dest = dest;
 	}
 	
-	public abstract Vector<Case> calculPlusCourtChemin(Case depart, Case dest);
+	public abstract List<Case> calculPlusCourtChemin(Case depart, Case dest);
 	
 	public abstract List<Evenement> listeMouvementUnit(long date, Robot robot, Carte carte);
 	

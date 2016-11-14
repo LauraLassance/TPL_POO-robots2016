@@ -1,5 +1,8 @@
 package evenement;
 
+import java.util.List;
+
+import donnee.Carte;
 import donnee.Case;
 import robot.Robot;
 
@@ -15,8 +18,15 @@ public class PlusCourtChemin extends CheminEvenement {
 	}
 	
 	@Override
-	public Vector<Case> calculPlusCourtChemin(Case depart, Case dest) {
+	public List<Case> calculPlusCourtChemin(Case depart, Case dest) {
+		return null;
 		
+	}
+
+	@Override
+	public List<Evenement> listeMouvementUnit(long date, Robot robot, Carte carte) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
