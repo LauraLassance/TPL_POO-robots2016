@@ -11,6 +11,6 @@ public interface CheminEvenement {
 	
 	public abstract void calculPlusCourtChemin();
 	
-	
-	
+	public abstract double evaluerDistance(Case src, Case dst);
+		
 	}

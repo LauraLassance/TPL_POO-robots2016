@@ -11,6 +11,7 @@ import robot.Robot;
 
 public class PlusCourtChemin extends Evenement implements CheminEvenement {
 	
+	/** Le robot qui va se déplacer */
 	private Robot robot;
 
 	/** La carte où le robot va se déplacer */
@@ -19,12 +20,17 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
 	/** la case destination */
 	private Case dest;
 	
+	/** la liste des evenements de déplacement unitaire pour faire le déplacement de la position du robot à la case dest*/
 	private List<Evenement> evenements;
 	
+	/** la liste des direction à prendre pour le plus court chemin de la case où se trouve le robot à la case dest */
 	private List<Direction> chemin;
 	
-	private List<Direction> directionMouvement;
+	/** contient les cout de l'algorithme de djikstra */
+	private List<List<Case>> cout;
 	
+	
+
 	public PlusCourtChemin(long date, Robot robot, Carte carte, Case dest) {
 		super(date);
 		this.robot = robot;
@@ -33,25 +39,11 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
 		
 		this.evenements = new ArrayList<Evenement>();
 		this.chemin = new ArrayList<Direction>();
-		
-		this.directionMouvement = new ArrayList<Direction>();
-		
-		if (robot.getPosition().getLigne() - dest.getLigne() > 0) {
-			directionMouvement.add(0, Direction.EST);
-			directionMouvement.add(2, Direction.OUEST);
-		} else { 
-			directionMouvement.add(0, Direction.OUEST);
-			directionMouvement.add(2, Direction.EST);
-		}
-		
-		if (robot.getPosition().getColonne() - dest.getColonne() > 0) {
-			directionMouvement.add(1, Direction.NORD);
-			directionMouvement.add(3, Direction.SUD);
-		} else {
-			directionMouvement.add(1, Direction.SUD);
-			directionMouvement.add(3, Direction.NORD);
-		}
+		this.cout = new ArrayList<List<double>>();
+	}
 	
+	public void initialiserDjikstra() {
+
 	}
 	
 	public double tempsNecessaireUnit(Case dest) {
