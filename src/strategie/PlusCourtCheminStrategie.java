@@ -199,7 +199,7 @@ public class PlusCourtCheminStrategie extends Evenement implements MouvementStra
     private void creerEvenementUnit() {
         for (int i = 0; i<chemin.size(); i++) {
             System.out.println("creerEvenementUnitaire "+ chemin.get(i));
-            evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
+            evenements.add(new DeplacerEvenement(this.getDate()+i, robot, chemin.get(i), carte));
             System.out.println(evenements.size());
         }
     } 
