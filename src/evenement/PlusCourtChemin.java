@@ -167,7 +167,6 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                 //System.out.println(dir);
                 marque.get(suivant.getLigne()).set(suivant.getColonne(), Boolean.TRUE);
                 if (dir != null) {
-                chemin.add(dir);
                 coutAJour(suivant);
                 suivant = carte.getVoisin(suivant, dir);
                 } else {
@@ -190,7 +189,7 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
             System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
             while (!suivant.equals(robot.getPosition())) {
                 chemin.add(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-                System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+                //System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
                 suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()).inverserDir());
             }
         }
@@ -204,6 +203,7 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                 for (int i = 0; i<chemin.size(); i++) {
                     System.out.println("creerEvenementUnitaire "+ chemin.get(i));
                     evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
+                    System.out.println(evenements.size());
                 }
         }
         
