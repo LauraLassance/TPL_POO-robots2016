@@ -22,10 +22,6 @@ public class Carte {
 			this.cases.addElement(new Vector<Case>(this.nbColonnes));
 	}
 	
-	public void Evenement(long date) {
-		// TODO Evenement
-	}
-	
 	public int getNbLignes() {
 		return this.nbLignes;
 	}

@@ -1,11 +1,10 @@
 package robot;
 
-import java.awt.Color;
-
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
 import exception.ReservoirPleinException;
+import exception.TerrainInterditException;
 
 public abstract class Robot {
 	private Case position;
@@ -33,7 +32,7 @@ public abstract class Robot {
 	
 	public abstract boolean peutSeDeplacer(NatureTerrain nature);
 	
-	public abstract void seDeplacer(Case caseDesire, Carte carte);
+	public abstract void seDeplacer(Case caseDesire, Carte carte) throws TerrainInterditException;
 	
 	public abstract int getTempsInterventionUnitaire();
 	
@@ -54,8 +53,6 @@ public abstract class Robot {
 	public abstract int getVolumeMaxReservoir();
 	
 	public abstract String getRobotImageName();
-	
-	public abstract Color getRobotColor();
 	
 	public int getVolumeEauReservoir() {
 		return volumeEauReservoir;

@@ -4,6 +4,7 @@ import donnee.Carte;
 import donnee.Case;
 import donnee.Direction;
 import exception.DehorsDeLaFrontiereException;
+import exception.TerrainInterditException;
 import robot.Robot;
 
 public class DeplacerEvenement extends Evenement {
@@ -26,7 +27,7 @@ public class DeplacerEvenement extends Evenement {
 	
 	
         @Override
-	public void execute() throws DehorsDeLaFrontiereException {
+	public void execute() throws DehorsDeLaFrontiereException, TerrainInterditException {
 		Case dest = this.carte.getVoisin(this.robot.getPosition(), this.dir);
 		if (dest != null)
 			this.robot.seDeplacer(dest, this.carte);

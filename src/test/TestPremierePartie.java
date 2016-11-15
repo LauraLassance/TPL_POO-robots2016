@@ -23,7 +23,6 @@ public class TestPremierePartie {
             
             Simulateur simulation = new Simulateur(gui,
             									   args[0],
-            									   Color.BLACK,
             									   TestPremierePartie.tailleSimulateur,             									  
             									   TestPremierePartie.tailleSimulateur);
             

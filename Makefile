@@ -21,7 +21,7 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
-all: javadoc testInvader testLecture testPremierePartie testScenario1Partie2 testScenario2Partie2
+all: javadoc testInvader testLecture testPremierePartie testScenario1Partie2 testScenario2Partie2 testRouesTerrainInterdit testPlusCourtChemin
 
 javadoc:
 	javadoc -d doc -classpath bin:bin/gui.jar -sourcepath src/ -subpackages donnee evenement exception io robot test
@@ -40,6 +40,14 @@ testScenario1Partie2:
 
 testScenario2Partie2:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestScenario2Partie2.java
+
+testRouesTerrainInterdit:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestRouesTerrainInterdit.java
+
+testPlusCourtChemin:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestPlusCourtChemin.java
+
+
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -60,6 +68,22 @@ exeScenario1Partie2:
 
 exeScenario2Partie2:
 	java -classpath bin:bin/gui.jar test/TestScenario2Partie2 cartes/carteSujet.map
+
+exeRouesTerrainInterdit:
+	java -classpath bin:bin/gui.jar test/TestRouesTerrainInterdit cartes/mushroomOfHell-20x20.map
+
+exePlusCourtChemin:
+	java -classpath bin:bin/gui.jar test/TestPlusCourtChemin cartes/carteSujet.map
+
+exePlusCourtChemin2:
+	java -classpath bin:bin/gui.jar test/TestPlusCourtChemin cartes/desertOfDeath-20x20.map
+
+exePlusCourtChemin3:
+	java -classpath bin:bin/gui.jar test/TestPlusCourtChemin cartes/mushroomOfHell-20x20.map
+
+exePlusCourtChemin4:
+	java -classpath bin:bin/gui.jar test/TestPlusCourtChemin cartes/spiralOfMadness-50x50.map
+
 
 clean:
 	rm -rf bin/*.class

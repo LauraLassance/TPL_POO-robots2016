@@ -8,12 +8,15 @@ import java.util.*;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import javax.swing.JOptionPane;
+
 import donnee.Case;
 import donnee.DonneesSimulation;
 import donnee.Incendie;
 import evenement.Evenement;
 import exception.*;
 import gui.GUISimulator;
+import gui.ImageElement;
 import gui.Rectangle;
 import gui.Simulable;
 
@@ -27,15 +30,13 @@ public class Simulateur implements Simulable {
 	private int largeur;
 	private int hauteur;
 	
-	/** Les couleurs des différents types de case */
-	private static Color couleurEau = Color.BLUE;
-	private static Color couleurForet = Color.GREEN;
-	private static Color couleurRoche = Color.GRAY;
-	private static Color couleurHabitat = Color.MAGENTA;
-	private static Color couleurIncendie = Color.RED;
-	
-	/** La couleur de fond */
-	private Color backgroundColor;
+	/** Les noms de fichier des différents types de case */
+	private static String fichierTerrainLibre = "terrain_libre.jpg";
+	private static String fichierEau = "eau.jpg";
+	private static String fichierForet = "foret.jpg";
+	private static String fichierRoche = "roche.jpg";
+	private static String fichierHabitat = "habitat.jpg";
+	private static String fichierIncendie = "feu.jpg";
 	
 	/** L'interface graphique associée */
     private GUISimulator gui;	
@@ -47,10 +48,13 @@ public class Simulateur implements Simulable {
     private String nomFichier;
     
     /** La date courante de simulation */
-    private long dateSimlation;
+    private long dateSimulation;
     
     /** La liste d'évènements de la simulation */
     private List<Evenement> evenements;
+    
+    /** L'index qui garde quel est le prochain évènement */
+    private int indexEvenement;
 
     /**
      * Crée une simulation a partir des données d'un fichier et la dessine.
@@ -58,13 +62,12 @@ public class Simulateur implements Simulable {
      * dessin et qui enverra les messages via les méthodes héritées de
      * Simulable.
      * @param nomFichier nom du fichier où il y a les données de la simulaion
-     * @param bkgColor la couleur de fond
      * @param largeur Largeur de la fenêtre
      * @param hauteur Hauteur de la fenêtre
      * @throws DataFormatException  Si le format du fichier ou de ses donnees est invalide 
      * @throws FileNotFoundException Si le nom du fichier est inconnu ou illesible
      */
-    public Simulateur(GUISimulator gui, String nomFichier, Color bkgColor, int largeur, int hauteur) 
+    public Simulateur(GUISimulator gui, String nomFichier, int largeur, int hauteur) 
     											throws FileNotFoundException, DataFormatException {
         this.gui = gui;
         gui.setSimulable(this);				// association a la gui!
@@ -72,13 +75,13 @@ public class Simulateur implements Simulable {
 		this.donnees = LecteurDonnees.lire(nomFichier);
 		this.nomFichier = nomFichier;
 		
-		this.backgroundColor = bkgColor;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		
 		this.evenements = new ArrayList<Evenement>();
+		this.indexEvenement = 0;
 		
-        draw();
+        this.draw();
     }
 
     public void ajouteEvenement(Evenement e) {
@@ -97,10 +100,38 @@ public class Simulateur implements Simulable {
     	this.draw();
     }
 
+    /**
+     * To restart the simulation, the dateSimulation and the indexEvenement
+     * have their values reset to 0 (their initial ones). To reset the robots
+     * and the fires, the initial file is read again and its information is 
+     * used to reset the important values of the robots (position and amount of
+     * water in the tank) and fires (intensity). Yet, the references remain the
+     * same, because the robots and fires pointers are also registered inside 
+     * the events instances, so it is necessary to use the same instances that
+     * were already in use.
+     */
     @Override
     public void restart() {
     	try {
-			this.donnees = LecteurDonnees.lire(nomFichier);
+    		this.dateSimulation = 0;
+    		this.indexEvenement = 0;
+    		
+    		DonneesSimulation donneesAux = LecteurDonnees.lire(nomFichier);
+    		List<Robot> robotsAux = donneesAux.getRobots();
+			
+    		for (int i=0; i<this.donnees.getRobots().size();i++) {
+    			this.donnees.getRobots().get(i).setPosition(
+    					robotsAux.get(i).getPosition());
+    			this.donnees.getRobots().get(i).setVolumeEauReservoir(
+    					robotsAux.get(i).getVolumeEauReservoir());	
+    		}
+    		
+    		List<Incendie> incendiesAux = donneesAux.getIncendies();
+    		
+    		for (int i=0; i<this.donnees.getIncendies().size();i++) {
+    			this.donnees.getIncendies().get(i).setIntensite(
+    					incendiesAux.get(i).getIntensite());
+    		}
 			
 			this.draw();
 		} catch (Exception e) {
@@ -110,45 +141,56 @@ public class Simulateur implements Simulable {
 		}
     }
 
+    /**
+     * Increase the date in one unit. Evaluates which events need to be
+     * executed because their date is smaller or the same as the current 
+     * one. When one event is executed, the variable that keeps track of
+     * the next event to be executed (indexEvenement) is increased.
+     * Treats the possible exceptions thrown by the events.
+     */
     private void incrementeDate() {
-    	this.dateSimlation++;
-    	if	(!this.simulationTerminee()) {
-    		List<Evenement> evenementsRealises = new ArrayList<Evenement>();
+    	this.dateSimulation++;
+    	
+    	boolean doitExecuter = true;
+    	
+    	while(!this.simulationTerminee() && doitExecuter) {
+    		Evenement evenement = this.evenements.get(this.indexEvenement);
     		
-    		Iterator<Evenement> it = this.evenements.iterator();
-    		boolean memeDate = true;
-    		
-    		while (it.hasNext() && memeDate)
-    		{
-    			Evenement evenement = it.next();
-    			if (evenement.getDate() == this.dateSimlation) {
-					try {
-						evenementsRealises.add(evenement);
-						evenement.execute();
-						
-					} catch (DehorsDeLaFrontiereException e) {
-						// TODO Open dialog to say show message
-						System.out.println("\n"+e.getMessage()+"\n");
-					} catch (ReservoirPleinException e) {
-						System.out.println("\n"+e.getMessage()+"\n");
-    				} catch (Exception e) {
-    					System.out.println("\n"+e.getMessage()+"\n");
-					}
-				} else
-					memeDate = false;
-			}
-    		
-    		if (!evenementsRealises.isEmpty())
-    			this.evenements.removeAll(evenementsRealises);
+    		if (evenement.getDate() <= this.dateSimulation) {
+    			try {
+    				this.indexEvenement++;
+    				evenement.execute();
+    			} catch (DehorsDeLaFrontiereException e) {
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+							  e.getMessage());
+				} catch (ReservoirPleinException e) {
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+							  e.getMessage());
+				} catch (Exception e) {
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+												  e.getMessage());
+				}
+    			
+    		} else {
+    			doitExecuter = false;
+    		}
     	}
     }
     
+    /**
+     * Verifies if all the events were already executed.
+     * @return Whether there are still events to be executed (true) or not (false).
+     */
     private boolean simulationTerminee() {
-    	return this.evenements.isEmpty();
+    	return (this.evenements.size() == this.indexEvenement);
     }
     
     /**
      * Dessine la carte avec tous ses éléments (robots et incendies).
+     * Si un incendie a une intensité égal a zero, il n'est pas dessiné.
      */
     private void draw() {
         gui.reset();	// clear the window
@@ -166,7 +208,8 @@ public class Simulateur implements Simulable {
         
         // dessine tous les incendies
         for (Incendie incend : this.donnees.getIncendies()) {
-        	drawIncendie(incend);
+        	if (incend.getIntensite() > 0)
+        		drawIncendie(incend);
         }
         
         // dessine tous les robots
@@ -183,29 +226,31 @@ public class Simulateur implements Simulable {
      * @param taille Taille de la case
      */
     private void drawCase(Case caseCourante, int x, int y) {
-		Color color = null;
+		String nomFichier = System.getProperty("user.dir")+"/images/";
     	switch (caseCourante.getNature()) {
 			case EAU:
-				color = Simulateur.couleurEau;
+				nomFichier += Simulateur.fichierEau;
 				break;
 			case FORET:
-				color = Simulateur.couleurForet;
+				nomFichier += Simulateur.fichierForet;
 				break;
 			case ROCHE:
-				color = Simulateur.couleurRoche;
+				nomFichier += Simulateur.fichierRoche;
 				break;
 			case TERRAIN_LIBRE:
-				color = this.backgroundColor;
+				nomFichier += Simulateur.fichierTerrainLibre;
 				break;
 			case HABITAT:
-				color = Simulateur.couleurHabitat;
+				nomFichier += Simulateur.fichierHabitat;
 		}
-    	gui.addGraphicalElement(new Rectangle(x + this.tailleCase / 2,
-    										  y + this.tailleCase / 2, 
-    										  color, 
-//    										  Color.WHITE,
-    										  color, 
-    										  this.tailleCase));
+
+    	gui.addGraphicalElement(
+    			new ImageElement(x,
+    							 y,
+    							 nomFichier,
+    							 this.tailleCase,
+    							 this.tailleCase,
+    							 null));
     }
     
     /**
@@ -215,12 +260,13 @@ public class Simulateur implements Simulable {
      */
     private void drawIncendie(Incendie incendie) {
     	gui.addGraphicalElement(
-    			new Rectangle(incendie.getLocalisation().getColonne()*this.tailleCase + this.tailleCase / 2,
-    						  incendie.getLocalisation().getLigne()*this.tailleCase + this.tailleCase / 2,
-    						  Simulateur.couleurIncendie,
-//    						  Color.WHITE,
-    						  Simulateur.couleurIncendie,
-    						  this.tailleCase));
+    			new ImageElement(
+    					incendie.getLocalisation().getColonne()*this.tailleCase,
+					    incendie.getLocalisation().getLigne()*this.tailleCase,
+					    System.getProperty("user.dir")+"/images/"+Simulateur.fichierIncendie,
+					    this.tailleCase,
+					    this.tailleCase,
+					    null));
     }
     
     /**
@@ -229,22 +275,13 @@ public class Simulateur implements Simulable {
      * @param taille Taille de la case de la carte
      */
     private void drawRobot(Robot robot) {
-    	// TODO verify if it is important to have an ImageObserver. If yes, verify
-    	//		which one
-//    	gui.addGraphicalElement(
-//    			new ImageElement(robot.getPosition().getColonne()*taille + taille / 2,
-//    							 robot.getPosition().getLigne()*taille + taille / 2,
-//    							 robot.getRobotImageName(),
-//    							 taille,
-//    							 taille,
-//    							 null));
     	gui.addGraphicalElement(
-    			new Rectangle(robot.getPosition().getColonne()*this.tailleCase + this.tailleCase / 2,
-    						  robot.getPosition().getLigne()*this.tailleCase + this.tailleCase / 2,
-//    						  robot.getRobotColor(),
-    						  Color.WHITE,
-    						  robot.getRobotColor(),
-    						  this.tailleCase));
+    			new ImageElement(robot.getPosition().getColonne()*this.tailleCase,
+    							 robot.getPosition().getLigne()*this.tailleCase,
+    							 System.getProperty("user.dir")+"/images/"+robot.getRobotImageName(),
+    							 this.tailleCase,
+    							 this.tailleCase,
+    							 null));
     }
     
     public DonneesSimulation getDonnees() {

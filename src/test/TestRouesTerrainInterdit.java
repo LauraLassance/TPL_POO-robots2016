@@ -9,7 +9,7 @@ import io.Simulateur;
 import robot.Robot;
 import evenement.*;
 
-public class TestScenario1Partie2 {
+public class TestRouesTerrainInterdit {
 
 	private final static int tailleSimulateur = 700;
 	
@@ -20,14 +20,14 @@ public class TestScenario1Partie2 {
         }
 
         try {
-            GUISimulator gui = new GUISimulator(TestScenario1Partie2.tailleSimulateur, 
-            									TestScenario1Partie2.tailleSimulateur, 
+            GUISimulator gui = new GUISimulator(TestRouesTerrainInterdit.tailleSimulateur, 
+            								    TestRouesTerrainInterdit.tailleSimulateur, 
             									Color.BLACK);
             
             Simulateur simulation = new Simulateur(gui,
             									   args[0],
-            									   TestScenario1Partie2.tailleSimulateur,             									  
-            									   TestScenario1Partie2.tailleSimulateur);
+            									   TestRouesTerrainInterdit.tailleSimulateur,             									  
+            									   TestRouesTerrainInterdit.tailleSimulateur);
             
             createScenarie(simulation);
             
@@ -44,8 +44,17 @@ public class TestScenario1Partie2 {
 	private static void createScenarie(Simulateur simulation) {
 		
 		Robot robot = simulation.getDonnees().getRobots().get(0);
-		for (int i=1; i< 5; i++)
-			simulation.ajouteEvenement( new DeplacerEvenement(i, 
+		int i=1;
+		simulation.ajouteEvenement( new DeplacerEvenement(i++, 
+				  robot,
+				  Direction.EST, 
+				  simulation.getDonnees().getCarte()) );
+		simulation.ajouteEvenement( new DeplacerEvenement(i++, 
+				  robot,
+				  Direction.SUD, 
+				  simulation.getDonnees().getCarte()) );
+		for (int j=0; j< 6; j++)
+			simulation.ajouteEvenement( new DeplacerEvenement(i+j, 
 															  robot,
 															  Direction.NORD, 
 															  simulation.getDonnees().getCarte()) );
