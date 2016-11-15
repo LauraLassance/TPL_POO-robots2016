@@ -54,10 +54,10 @@ public class TestPlusCourtChemin {
         }
 
 	}
-	
+        
     	private static void createScenarie(Simulateur simulation) {
 		int date = 1;
-		Robot robot = simulation.getDonnees().getRobots().get(1);
+		Robot robot = simulation.getDonnees().getRobots().get(0);
                 Carte carte = simulation.getDonnees().getCarte();
                 Case dest = simulation.getDonnees().getIncendies().get(0).getLocalisation();
                 PlusCourtChemin CalculChemin = new PlusCourtChemin(date, robot, carte, dest);
