@@ -24,7 +24,8 @@ public class DeplacerEvenement extends Evenement {
 		this.carte = carte;
 	}
 	
-	@Override
+	
+        @Override
 	public void execute() throws DehorsDeLaFrontiereException {
 		Case dest = this.carte.getVoisin(this.robot.getPosition(), this.dir);
 		if (dest != null)

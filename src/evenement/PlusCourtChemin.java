@@ -7,6 +7,8 @@ import donnee.Direction;
 import donnee.Carte;
 import donnee.Case;
 import exception.DehorsDeLaFrontiereException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import robot.Robot;
 
 public class PlusCourtChemin extends Evenement implements CheminEvenement {
@@ -28,6 +30,8 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
         
         /**Représente l'infini */
         private Double infini = 1000.0;
+        
+        private List<List<Boolean>> marque;
 	
 	/** contient le cout de déplacement de déplacement vers la case cout[i][j]
          * Ce déplacement ne dépend que de la case, car la vitesse ne dépend que de la
@@ -49,21 +53,27 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
 		this.chemin = new ArrayList<>();
 		this.cout = new ArrayList<>();
                 this.predecesseur = new ArrayList <>();
+                this.marque = new ArrayList<>();
+                calculPlusCourtChemin();
+                creerEvenementUnit();
 	}
 	
 	private void initialiserDjikstra() {
             List<Double> colonneCout = new ArrayList<>(); 
             List<Direction> colonneDirection = new ArrayList<>();
             List<Case> colonneCase = new ArrayList<>();
+            List<Boolean> colonneMarque = new ArrayList<>();
             Double max = infini;
             for (int i = 0; i  < carte.getNbLignes(); i++) {
                 for (int j = 0; j < carte.getNbColonnes(); j++) {
                     colonneCout.add(j, max);
                     colonneDirection.add(j,null);
                     colonneCase.add(j, null);
+                    colonneMarque.add(j, false);
                 }
                 cout.add(i, colonneCout);
                 predecesseur.add(i, colonneDirection);
+                marque.add(i, colonneMarque);
             }
             colonneCout.set(robot.getPosition().getColonne(), 0.0);
             cout.set(robot.getPosition().getLigne(), colonneCout);
@@ -86,7 +96,8 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
             Direction dir = null;
             Double min = infini;
             for (Direction d : Direction.values()) {
-                if (tempsNecessaireUnit(carte.getVoisin(current,d)) + cout.get(current.getLigne()).get(current.getColonne()) < min) {
+                if (tempsNecessaireUnit(carte.getVoisin(current,d)) + cout.get(current.getLigne()).get(current.getColonne()) < min &&
+                        marque.get(carte.getVoisin(current, d).getLigne()).get(carte.getVoisin(current, d).getColonne()) == Boolean.FALSE) {
                     min = tempsNecessaireUnit(carte.getVoisin(current, d))+ cout.get(current.getLigne()).get(current.getColonne());
                     dir = d;
                 }
@@ -119,15 +130,23 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
 	@Override
 	public void calculPlusCourtChemin() {
             initialiserDjikstra();
+            List<Boolean> marqueColonne = marque.get(robot.getPosition().getLigne());
             Case suivant = robot.getPosition();
             Direction dir;
             int iteration = 0;
             int nbCase = carte.getNbColonnes() * carte.getNbLignes();
-            while (!suivant.equals(dest) || iteration < nbCase || suivant != null) {
+            while (!suivant.equals(dest) || (suivant != null) || iteration < nbCase) {
+                System.out.println(suivant.getColonne());
+                System.out.println(suivant.getLigne());
+                marqueColonne = marque.get(suivant.getLigne());
                 iteration++;
                 dir = minimum(suivant);
+                marqueColonne.set(suivant.getColonne(), Boolean.TRUE);
+                marque.set(suivant.getLigne(), marqueColonne);
+                
+                System.out.println(dir);
                 chemin.add(dir);
-                coutAJour(suivant);
+                coutAJour(suivant); 
                 suivant = carte.getVoisin(suivant, dir);
             }
         } 
@@ -139,12 +158,27 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                 
             }
         }
+        
+        public List<Evenement> getEvenements() {
+            System.out.println(evenements.toString());
+            return this.evenements;
+        }
 	
+        private void creerEvenementUnit() {
+                for (int i = 0; i<chemin.size(); i++) {
+                    evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
+                }
+        }
         
 	@Override
 	public void execute() throws DehorsDeLaFrontiereException {
-            
-		throw new DehorsDeLaFrontiereException("Le robot est sorti de la carte dans la direction ");
+                for (int i = 0; i < evenements.size(); i++) {
+                    try {
+                        evenements.get(i).execute();
+                    } catch (Exception ex) {
+                        throw new DehorsDeLaFrontiereException("Le robot est sorti de la carte dans la direction ");
+                    }
+                }
 	}
 
 }

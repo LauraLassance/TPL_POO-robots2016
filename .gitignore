@@ -4,3 +4,5 @@ bin/
 doc/
 robots2016.pdf
 /nbproject/private/
+/build/
+/dist/
