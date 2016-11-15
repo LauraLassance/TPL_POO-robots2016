@@ -1,4 +1,4 @@
-package evenement;
+package strategie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +7,14 @@ import donnee.Direction;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import evenement.DeplacerEvenement;
+import evenement.Evenement;
 import exception.DehorsDeLaFrontiereException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robot.Robot;
 
-public class PlusCourtChemin extends Evenement implements CheminEvenement {
+public class PlusCourtCheminStrategie extends Evenement implements MouvementStrategie {
 	
 	/** Le robot qui va se déplacer */
 	private Robot robot;
@@ -29,10 +31,10 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
 	/** la liste des directions à prendre pour le plus court chemin de la case où se trouve le robot à la case dest */
 	private List<Direction> chemin;
         
-        /**Représente l'infini */
-        private Double infini = 1000000.0;
-        
-        private List<List<Boolean>> marque;
+    /**Représente l'infini */
+    private Double infini = 1000000.0;
+    
+    private List<List<Boolean>> marque;
         
 	/** contient le cout de déplacement de déplacement vers la case cout[i][j]
          * Ce déplacement ne dépend que de la case, car la vitesse ne dépend que de la
@@ -40,22 +42,22 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
          */
 	private List<List<Double>> cout;
                 
-        /** Contient la liste de predecesseur */
-        private List<List<Direction>> predecesseur;
+    /** Contient la liste de predecesseur */
+    private List<List<Direction>> predecesseur;
         
         
-	public PlusCourtChemin(long date, Robot robot, Carte carte, Case dest) {
+	public PlusCourtCheminStrategie(long date, Robot robot, Carte carte, Case dest) {
 		super(date);
 		this.robot = robot;
 		this.carte = carte;
 		this.dest = dest;
 		
-		this.evenements = new ArrayList<>();
-		this.chemin = new ArrayList<>();
+		this.evenements = new ArrayList<Evenement>();
+		this.chemin = new ArrayList<Direction>();
 		this.cout = new ArrayList<>();
         this.predecesseur = new ArrayList <>();
         this.marque = new ArrayList<>();
-        calculPlusCourtChemin();
+        calculChemin();
         creerEvenementUnit();
    	}
 	
@@ -95,11 +97,13 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
         //System.out.println("min"+current.getLigne());
         //System.out.println("min"+current.getColonne());
         for (Direction d : Direction.values()) {
-        if (carte.voisinExiste(current, d) &&
-                    tempsNecessaireUnit(carte.getVoisin(current,d)) + cout.get(current.getLigne()).get(current.getColonne()) < min &&
-                    marque.get(carte.getVoisin(current, d).getLigne()).get(carte.getVoisin(current, d).getColonne()) == Boolean.FALSE) {
-                min = tempsNecessaireUnit(carte.getVoisin(current, d))+ cout.get(current.getLigne()).get(current.getColonne());
-                return d;
+	        if (carte.voisinExiste(current, d) &&
+                (tempsNecessaireUnit(carte.getVoisin(current,d)) + 
+                cout.get(current.getLigne()).get(current.getColonne()) < min) &&
+	            marque.get(carte.getVoisin(current, d).getLigne()).get(carte.getVoisin(current, d).getColonne()) == Boolean.FALSE) {
+	                min = tempsNecessaireUnit(carte.getVoisin(current, d))+ cout.get(current.getLigne()).get(current.getColonne());
+	                
+	                return d;
             }
         }
         return null; 
@@ -119,18 +123,17 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                         tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne())) {
 
 
-                cout.get(v.getLigne()).set(v.getColonne(), tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne()));
-                predecesseur.get(v.getLigne()).set(v.getColonne(), d);
-                if (current.getLigne() == 7 && current.getColonne() == 0)
-                    System.out.println(predecesseur.get(v.getLigne()).get(v.getColonne()));
+                	cout.get(v.getLigne()).set(v.getColonne(), tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne()));
+                	predecesseur.get(v.getLigne()).set(v.getColonne(), d);
+                	if (current.getLigne() == 7 && current.getColonne() == 0)
+                		System.out.println(predecesseur.get(v.getLigne()).get(v.getColonne()));
                 }
-        
             }
         }
     }
 	
     public boolean isEmpty() {
-        for (int i = 0; i < marque.size(); i++) {
+    	for (int i = 0; i < marque.size(); i++) {
             for (int j = 0; j < marque.get(i).size(); j++) {
                 if (marque.get(i).get(j) == false) {
                     return false;
@@ -147,59 +150,59 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                      return carte.getCase(i,j);
                  }
              }
-        }
+         }
          return null;
     }
         
 	@Override
-	public void calculPlusCourtChemin() {
-            initialiserDjikstra();
-            Case suivant = robot.getPosition();
-            Direction dir;
-            int iteration = 0;
-            int nbCase = carte.getNbColonnes() * carte.getNbLignes();
-            while (!isEmpty()) {
-                //System.out.println(suivant.getColonne());
-                //System.out.println(suivant.getLigne());
-                iteration++;
-                dir = minimum(suivant);
-                //System.out.println(dir);
-                marque.get(suivant.getLigne()).set(suivant.getColonne(), Boolean.TRUE);
-                if (dir != null) {
-                coutAJour(suivant);
-                suivant = carte.getVoisin(suivant, dir);
-                } else {
-                    suivant = getCaseNonTraite();
-                }
-            }
-            
-            setChemin();
-            /*
-            for (int i = 0; i < carte.getNbLignes(); i++) {
-                for (int j = 0; j < carte.getNbColonnes(); j++)
-                    System.out.print(predecesseur.get(i).get(j)+ " ");
-            }
-            System.out.print("\n");
-            */
-        } 
-        
-        private void setChemin() {
-            Case suivant = dest;
-            System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
-            while (!suivant.equals(robot.getPosition())) {
-                chemin.add(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-                //System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-                suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()).inverserDir());
+	public void calculChemin() {
+        initialiserDjikstra();
+        Case suivant = robot.getPosition();
+        Direction dir;
+        int iteration = 0;
+        int nbCase = carte.getNbColonnes() * carte.getNbLignes();
+        while (!isEmpty()) {
+            //System.out.println(suivant.getColonne());
+            //System.out.println(suivant.getLigne());
+            iteration++;
+            dir = minimum(suivant);
+            //System.out.println(dir);
+            marque.get(suivant.getLigne()).set(suivant.getColonne(), Boolean.TRUE);
+            if (dir != null) {
+            	coutAJour(suivant);
+            	suivant = carte.getVoisin(suivant, dir);
+            } else {
+                suivant = getCaseNonTraite();
             }
         }
+        
+        setChemin();
+        /*
+        for (int i = 0; i < carte.getNbLignes(); i++) {
+            for (int j = 0; j < carte.getNbColonnes(); j++)
+                System.out.print(predecesseur.get(i).get(j)+ " ");
+        }
+        System.out.print("\n");
+        */
+	} 
+        
+    private void setChemin() {
+        Case suivant = this.dest;
+        System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
+        while (!suivant.equals(robot.getPosition())) {
+            chemin.add(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+            //System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+            suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()).inverserDir());
+        }
+    }
 	
-        private void creerEvenementUnit() {
-                for (int i = 0; i<chemin.size(); i++) {
-                    System.out.println("creerEvenementUnitaire "+ chemin.get(i));
-                    evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
-                    System.out.println(evenements.size());
-                }
-        } 
+    private void creerEvenementUnit() {
+        for (int i = 0; i<chemin.size(); i++) {
+            System.out.println("creerEvenementUnitaire "+ chemin.get(i));
+            evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
+            System.out.println(evenements.size());
+        }
+    } 
         
     public List<Evenement> getEvenements() {
         //System.out.println(evenements.toString());
