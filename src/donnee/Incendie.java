@@ -22,6 +22,11 @@ public class Incendie {
 		return intensite;
 	}
 	
+	public void setIntensite(int intensite) {
+		if (intensite > 0)
+			this.intensite = intensite;
+	}
+	
 	public void eteindreIncendie(int vol) {
 		if (vol > this.intensite)
 			this.intensite = 0;

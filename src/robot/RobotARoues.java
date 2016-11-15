@@ -1,7 +1,5 @@
 package robot;
 
-import java.awt.Color;
-
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
@@ -72,17 +70,12 @@ public class RobotARoues extends RobotTerrestre {
 
 	@Override
 	public String getRobotImageName() {
-		return "../images/roues.gif";
-	}
-
-	@Override
-	public Color getRobotColor() {
-		return Color.PINK;
+		return "roues.png";
 	}
 
 	/**
 	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
-	 * @param [in] prend en entrée la nature du terrain sur laquelle il veut se deplacer.
+	 * @param nature prend en entrée la nature du terrain sur laquelle il veut se deplacer.
 	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
 	 */
 	
