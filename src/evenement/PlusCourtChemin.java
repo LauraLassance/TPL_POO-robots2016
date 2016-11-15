@@ -119,9 +119,10 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                         tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne())) {
                 
                 colonneCout.set(current.getColonne(), tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne()));
-                colonneDirection.set(v.getColonne(), d);
+                colonneDirection.set(current.getColonne(), d);
                 cout.set(current.getLigne(), colonneCout);
                 predecesseur.add(current.getLigne(), colonneDirection);
+             
             
             }
             }
@@ -145,17 +146,26 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
                 marque.set(suivant.getLigne(), marqueColonne);
                 
                 System.out.println(dir);
+                if (dir != null) {
                 chemin.add(dir);
                 coutAJour(suivant); 
                 suivant = carte.getVoisin(suivant, dir);
+                } else {
+                    
+                }
             }
         } 
         
         private void setChemin() {
-            Case suivant = this.dest;
-            while (!suivant.equals(robot.getPosition())) {
+            Case suivant = this.robot.getPosition();
+            System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
+            while (!suivant.equals(this.dest)) {
+                /*
                 chemin.add(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-                
+                suivant = carte.getVoisin(carte.getCase(suivant.getLigne(), suivant.getColonne()), predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+                */
+                System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+                suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
             }
         }
         
@@ -165,6 +175,7 @@ public class PlusCourtChemin extends Evenement implements CheminEvenement {
         }
 	
         private void creerEvenementUnit() {
+            setChemin();
                 for (int i = 0; i<chemin.size(); i++) {
                     evenements.add(new DeplacerEvenement(i, robot, chemin.get(i), carte));
                 }
