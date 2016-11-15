@@ -27,7 +27,6 @@ public class TestScenario2Partie2 {
             
             Simulateur simulation = new Simulateur(gui,
             									   args[0],
-            									   Color.BLACK,
             									   TestScenario2Partie2.tailleSimulateur,             									  
             									   TestScenario2Partie2.tailleSimulateur);
             

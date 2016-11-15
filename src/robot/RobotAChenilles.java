@@ -3,6 +3,7 @@ package robot;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import exception.TerrainInterditException;
 
 public class RobotAChenilles extends RobotTerrestre {
 	
@@ -63,13 +64,17 @@ public class RobotAChenilles extends RobotTerrestre {
 	 * simulation. Le robot a de restrictions de nature (Forêt et Eau). Quand
 	 * il y a de restrictions, le robot ne se déplace pas.
 	 * @param caseDesiree Case pour laquelle le drone se déplace
+	 * @throws TerrainInterditException Exception pour indiquer que le terrain
+	 * de la caseDesiree est interdit pour ce robot
 	 */
 	@Override
-	public void seDeplacer(Case caseDesiree, Carte carte) {
+	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
 		if (carte.sontVoisins(this.getPosition(), caseDesiree))
 			if ((caseDesiree.getNature() != NatureTerrain.EAU) &&
 				(caseDesiree.getNature() != NatureTerrain.ROCHE))
 				this.setPosition(caseDesiree);
+			else
+				throw new TerrainInterditException(caseDesiree.getNature());
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package robot;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import exception.TerrainInterditException;
 
 public class RobotAPattes extends RobotTerrestre {
 	
@@ -37,10 +38,12 @@ public class RobotAPattes extends RobotTerrestre {
 	 * Ne peut pas se rendre sur de l’eau.
 	 */
 	@Override
-	public void seDeplacer(Case caseDesiree, Carte carte) {
+	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
 		if (carte.sontVoisins(this.getPosition(), caseDesiree))
 			if (caseDesiree.getNature() != NatureTerrain.EAU)
 				this.setPosition(caseDesiree);
+			else
+				throw new TerrainInterditException(caseDesiree.getNature());
 	}
 	
 	@Override

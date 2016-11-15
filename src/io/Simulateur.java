@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.List;
 import java.util.zip.DataFormatException;
 
+import javax.swing.JOptionPane;
+
 import donnee.Case;
 import donnee.DonneesSimulation;
 import donnee.Incendie;
@@ -36,10 +38,6 @@ public class Simulateur implements Simulable {
 	private static String fichierHabitat = "habitat.jpg";
 	private static String fichierIncendie = "feu.jpg";
 	
-	
-	/** La couleur de fond */
-	private Color backgroundColor;
-	
 	/** L'interface graphique associée */
     private GUISimulator gui;	
     
@@ -64,13 +62,12 @@ public class Simulateur implements Simulable {
      * dessin et qui enverra les messages via les méthodes héritées de
      * Simulable.
      * @param nomFichier nom du fichier où il y a les données de la simulaion
-     * @param bkgColor la couleur de fond
      * @param largeur Largeur de la fenêtre
      * @param hauteur Hauteur de la fenêtre
      * @throws DataFormatException  Si le format du fichier ou de ses donnees est invalide 
      * @throws FileNotFoundException Si le nom du fichier est inconnu ou illesible
      */
-    public Simulateur(GUISimulator gui, String nomFichier, Color bkgColor, int largeur, int hauteur) 
+    public Simulateur(GUISimulator gui, String nomFichier, int largeur, int hauteur) 
     											throws FileNotFoundException, DataFormatException {
         this.gui = gui;
         gui.setSimulable(this);				// association a la gui!
@@ -78,7 +75,6 @@ public class Simulateur implements Simulable {
 		this.donnees = LecteurDonnees.lire(nomFichier);
 		this.nomFichier = nomFichier;
 		
-		this.backgroundColor = bkgColor;
 		this.largeur = largeur;
 		this.hauteur = hauteur;
 		
@@ -165,12 +161,17 @@ public class Simulateur implements Simulable {
     				this.indexEvenement++;
     				evenement.execute();
     			} catch (DehorsDeLaFrontiereException e) {
-					// TODO Open dialog to say show message
-					System.out.println("\n"+e.getMessage()+"\n");
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+							  e.getMessage());
 				} catch (ReservoirPleinException e) {
-					System.out.println("\n"+e.getMessage()+"\n");
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+							  e.getMessage());
 				} catch (Exception e) {
-					System.out.println("\n"+e.getMessage()+"\n");
+					System.out.println(e.getMessage()+"\n");
+					JOptionPane.showMessageDialog(this.gui.getContentPane(), 
+												  e.getMessage());
 				}
     			
     		} else {
@@ -242,11 +243,7 @@ public class Simulateur implements Simulable {
 			case HABITAT:
 				nomFichier += Simulateur.fichierHabitat;
 		}
-//    	gui.addGraphicalElement(new Rectangle(x + this.tailleCase / 2,
-//    										  y + this.tailleCase / 2, 
-//    										  color,
-//    										  color, 
-//    										  this.tailleCase));
+
     	gui.addGraphicalElement(
     			new ImageElement(x,
     							 y,

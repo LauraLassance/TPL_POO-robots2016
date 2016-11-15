@@ -11,7 +11,7 @@ import evenement.*;
 
 public class TestRouesTerrainInterdit {
 
-	private final static int tailleSimulateur = 800;
+	private final static int tailleSimulateur = 700;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {

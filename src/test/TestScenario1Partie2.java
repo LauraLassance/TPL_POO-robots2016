@@ -11,7 +11,7 @@ import evenement.*;
 
 public class TestScenario1Partie2 {
 
-	private final static int tailleSimulateur = 800;
+	private final static int tailleSimulateur = 700;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -26,7 +26,6 @@ public class TestScenario1Partie2 {
             
             Simulateur simulation = new Simulateur(gui,
             									   args[0],
-            									   Color.BLACK,
             									   TestScenario1Partie2.tailleSimulateur,             									  
             									   TestScenario1Partie2.tailleSimulateur);
             
