@@ -58,24 +58,24 @@ public class RobotAChenilles extends RobotTerrestre {
 		return RobotAChenilles.TEMPS_REMPLISSAGE;
 	}
 
-	/**
-	 * Déplace le robot pour la caseDesiree. La vérification si la case
-	 * courante et la destination sont voisins est faite dans la classe de
-	 * simulation. Le robot a de restrictions de nature (Forêt et Eau). Quand
-	 * il y a de restrictions, le robot ne se déplace pas.
-	 * @param caseDesiree Case pour laquelle le drone se déplace
-	 * @throws TerrainInterditException Exception pour indiquer que le terrain
-	 * de la caseDesiree est interdit pour ce robot
-	 */
-	@Override
-	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
-		if (carte.sontVoisins(this.getPosition(), caseDesiree))
-			if ((caseDesiree.getNature() != NatureTerrain.EAU) &&
-				(caseDesiree.getNature() != NatureTerrain.ROCHE))
-				this.setPosition(caseDesiree);
-			else
-				throw new TerrainInterditException(caseDesiree.getNature());
-	}
+//	/**
+//	 * Déplace le robot pour la caseDesiree. La vérification si la case
+//	 * courante et la destination sont voisins est faite dans la classe de
+//	 * simulation. Le robot a de restrictions de nature (Forêt et Eau). Quand
+//	 * il y a de restrictions, le robot ne se déplace pas.
+//	 * @param caseDesiree Case pour laquelle le drone se déplace
+//	 * @throws TerrainInterditException Exception pour indiquer que le terrain
+//	 * de la caseDesiree est interdit pour ce robot
+//	 */
+//	@Override
+//	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
+//		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+//			if ((caseDesiree.getNature() != NatureTerrain.EAU) &&
+//				(caseDesiree.getNature() != NatureTerrain.ROCHE))
+//				this.setPosition(caseDesiree);
+//			else
+//				throw new TerrainInterditException(caseDesiree.getNature());
+//	}
 	
 	@Override
 	public int getVolumeMaxReservoir() {

@@ -6,17 +6,13 @@ import donnee.Direction;
 
 import donnee.Carte;
 import donnee.Case;
-import donnee.NatureTerrain;
 import evenement.DeplacerEvenement;
 import evenement.Evenement;
-import exception.DehorsDeLaFrontiereException;
 import exception.PasDeCheminException;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import io.Simulateur;
 import robot.Robot;
 
-public class PlusCourtCheminStrategie extends Evenement implements AffectationStrategie {
+public class PlusCourtCheminStrategie implements AffectationStrategie {
 	
 	/** Le robot qui va se déplacer */
 	private Robot robot;
@@ -24,21 +20,24 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
 	/** La carte où le robot va se déplacer */
 	private Carte carte;
 
-	/** la case destiation */
+	/** La case destiation */
 	private Case dest;
 
-	/** la liste des evenements de déplacement unitaire pour faire le déplacement de la position du robot à la case dest*/
+	/** La liste des evenements de déplacement unitaire pour faire le déplacement de la position du robot à la case dest*/
 	private List<Evenement> evenements;
 	
-	/** la liste des directions à prendre pour le plus court chemin de la case où se trouve le robot à la case dest */
+	/** La liste des directions à prendre pour le plus court chemin de la case où se trouve le robot à la case dest */
 	private List<Direction> chemin;
+	
+	/** La date de début des évènements */
+	private long date;
         
     /**Représente l'infini */
     private Double infini = 1000000.0;
     
     private List<List<Boolean>> marque;
         
-	/** contient le cout de déplacement de déplacement vers la case cout[i][j]
+	/** Contient le cout de déplacement de déplacement vers la case cout[i][j]
          * Ce déplacement ne dépend que de la case, car la vitesse ne dépend que de la
          * case à laquelle on veut se déplacer.
          */
@@ -49,7 +48,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
         
         
 	public PlusCourtCheminStrategie(long date, Robot robot, Carte carte, Case dest) {
-		super(date);
+		this.date = date;
 		this.robot = robot;
 		this.carte = carte;
 		this.dest = dest;
@@ -89,8 +88,8 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
 	}
         
 	/**
-	 * calcul le temps minimum pour aller à cette case.
-	 * @return la direction du noeud à partir de la case courante avec le cout minimum à traiter
+	 * Calcul le temps minimum pour aller à cette case.
+	 * @return La direction du noeud à partir de la case courante avec le cout minimum à traiter
 	 */
     private Direction minimum(Case current) {
         Double min = infini;
@@ -110,7 +109,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
     }
         
     /**
-     * met à jour les couts de Djikstra
+     * Met à jour les couts de Djikstra
      */
     private void coutAJour(Case current) {
         
@@ -154,8 +153,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
          return null;
     }
         
-	@Override
-	public void calculChemin() throws PasDeCheminException {
+	private void calculChemin() throws PasDeCheminException {
         initialiserDjikstra();
         Case suivant = robot.getPosition();
         Direction dir;
@@ -205,28 +203,16 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
     private void creerEvenementUnit() {
         for (int i = 0; i<chemin.size(); i++) {
             System.out.println("creerEvenementUnitaire "+ chemin.get(i));
-            evenements.add(new DeplacerEvenement(this.getDate()+i, robot, chemin.get(i), carte));
+            evenements.add(new DeplacerEvenement(this.date+i, robot, chemin.get(i), carte));
             System.out.println(evenements.size());
         }
     } 
-        
-    public List<Evenement> getEvenements() {
-        //System.out.println(evenements.toString());
-        return this.evenements;
-    }
 
     @Override
-    public void execute() throws DehorsDeLaFrontiereException, PasDeCheminException {
+    public List<Evenement> getChemin() throws PasDeCheminException {
     	calculChemin();
         creerEvenementUnit();
-        
-    	for (int i = 0; i < evenements.size(); i++) {
-            try {
-                evenements.get(i).execute();
-            } catch (Exception ex) {
-                throw new DehorsDeLaFrontiereException("Le robot est sorti de la carte dans la direction ");
-            }
-        }
+        return this.evenements;
     }
 
 }

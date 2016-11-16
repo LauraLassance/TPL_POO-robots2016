@@ -48,17 +48,17 @@ public class Drone extends RobotAerien {
 		return this.getVitesse();
 	}
 	
-	/**
-	 * Déplace le drone pour la caseDesiree. La vérification si la case
-	 * courante et la destination sont voisins est faite dans la classe de
-	 * simulation. Le drone n'a pas de restriction de nature.
-	 * @param caseDesiree Case pour laquelle le drone se déplace
-	 */
-	@Override
-	public void seDeplacer(Case caseDesiree, Carte carte) {
-		if (carte.sontVoisins(this.getPosition(), caseDesiree))
-			this.setPosition(caseDesiree);
-	}
+//	/**
+//	 * Déplace le drone pour la caseDesiree. La vérification si la case
+//	 * courante et la destination sont voisins est faite dans la classe de
+//	 * simulation. Le drone n'a pas de restriction de nature.
+//	 * @param caseDesiree Case pour laquelle le drone se déplace
+//	 */
+//	@Override
+//	public void seDeplacer(Case caseDesiree, Carte carte) {
+//		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+//			this.setPosition(caseDesiree);
+//	}
 	
 	@Override
 	public TypeRobot getType() {

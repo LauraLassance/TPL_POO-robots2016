@@ -41,15 +41,15 @@ public class RobotARoues extends RobotTerrestre {
 	/**
 	 * Ne peut se déplacer que sur du terrain libre ou habitat.
 	 */
-	@Override
-	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
-		if (carte.sontVoisins(this.getPosition(), caseDesiree))
-			if ((caseDesiree.getNature() == NatureTerrain.TERRAIN_LIBRE) || 
-				(caseDesiree.getNature() == NatureTerrain.HABITAT))
-				this.setPosition(caseDesiree);
-			else
-				throw new TerrainInterditException(caseDesiree.getNature());
-	}
+//	@Override
+//	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
+//		if (carte.sontVoisins(this.getPosition(), caseDesiree))
+//			if ((caseDesiree.getNature() == NatureTerrain.TERRAIN_LIBRE) || 
+//				(caseDesiree.getNature() == NatureTerrain.HABITAT))
+//				this.setPosition(caseDesiree);
+//			else
+//				throw new TerrainInterditException(caseDesiree.getNature());
+//	}
 
 	@Override
 	public TypeRobot getType() {
