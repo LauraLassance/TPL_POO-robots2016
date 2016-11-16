@@ -34,7 +34,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
 	private List<Direction> chemin;
         
     /**Représente l'infini */
-    private Double infini = 1000000.0;
+    private Double infini = Double.MAX_VALUE;
     
     private List<List<Boolean>> marque;
         
@@ -94,10 +94,10 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
 	 */
     private Direction minimum(Case current) {
         Double min = infini;
-        //System.out.println("min"+current.getLigne());
-        //System.out.println("min"+current.getColonne());
+        System.out.println("min"+current.getLigne());
+        System.out.println("min"+current.getColonne());
         for (Direction d : Direction.values()) {
-	        if (carte.voisinExiste(current, d) &&
+            if (carte.voisinExiste(current, d) &&
                 (tempsNecessaireUnit(carte.getVoisin(current,d)) + 
                 cout.get(current.getLigne()).get(current.getColonne()) < min) &&
 	            marque.get(carte.getVoisin(current, d).getLigne()).get(carte.getVoisin(current, d).getColonne()) == Boolean.FALSE) {
@@ -117,8 +117,8 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
         for (Direction d : Direction.values()) {
             if (carte.voisinExiste(current, d)) {
                 Case v = carte.getVoisin(current, d);
-                //System.out.println("cout"+cout.get(v.getLigne()).get(v.getColonne()));
-                //System.out.println("cout"+tempsNecessaireUnit(v) +" "+ cout.get(current.getLigne()).get(current.getColonne()));
+                System.out.println("cout"+cout.get(v.getLigne()).get(v.getColonne()));
+                System.out.println("cout"+tempsNecessaireUnit(v) +" "+ cout.get(current.getLigne()).get(current.getColonne()));
                 if (cout.get(v.getLigne()).get(v.getColonne()) > 
                         tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne())) {
 
@@ -146,7 +146,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
     public Case getCaseNonTraite() {
          for (int i = 0; i < marque.size(); i++) {
              for (int j = 0; j < marque.get(i).size(); j++) {   
-                 if (marque.get(i).get(j) == false) {
+                 if (marque.get(i).get(j) == false && cout.get(i).get(j) < infini) {
                      return carte.getCase(i,j);
                  }
              }
@@ -159,18 +159,17 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
         initialiserDjikstra();
         Case suivant = robot.getPosition();
         Direction dir;
-        int iteration = 0;
         int nbCase = carte.getNbColonnes() * carte.getNbLignes();
         while (!isEmpty()) {
             //System.out.println(suivant.getColonne());
             //System.out.println(suivant.getLigne());
-            iteration++;
             dir = minimum(suivant);
-            //System.out.println(dir);
+            System.out.println(suivant.getLigne() + " " + suivant.getColonne());
+            System.out.println(dir);
+            coutAJour(suivant);
             marque.get(suivant.getLigne()).set(suivant.getColonne(), Boolean.TRUE);
             if (dir != null) {
-            	coutAJour(suivant);
-            	suivant = carte.getVoisin(suivant, dir);
+                suivant = carte.getVoisin(suivant, dir);
             } else {
                 suivant = getCaseNonTraite();
             }
@@ -188,7 +187,7 @@ public class PlusCourtCheminStrategie extends Evenement implements AffectationSt
         
     private void setChemin() throws PasDeCheminException {
         Case suivant = this.dest;
-        System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
+        System.out.println(robot.getType()+":x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
         while (!suivant.equals(robot.getPosition())) {
             Direction d = predecesseur.get(suivant.getLigne()).get(suivant.getColonne());
             /** S'il y a un chemin possible pour cette arête */
