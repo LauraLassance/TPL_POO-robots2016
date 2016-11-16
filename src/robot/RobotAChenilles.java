@@ -22,8 +22,8 @@ public class RobotAChenilles extends RobotTerrestre {
 	/**
 	 * Crée un robot à chenilles dans la position donnée et avec la vitesse 
 	 * désirée. Si la vitesse désirée est plus grande que la vitesse maximale,
-	 * ce qui est utilisée est la maximale.
-	 * @param position Case dans la carte où est le drone 
+	 * celle utilisée est la maximale.
+	 * @param position Case dans la carte où on crée le drone 
 	 * @param vitesse Vitesse de déplacement du drone
 	 */
 	public RobotAChenilles(Case position, double vitesse) {
@@ -33,8 +33,8 @@ public class RobotAChenilles extends RobotTerrestre {
 	}
 	
 	/**
-	 * La vitesse est diminuée de 50% en forêt.
-	 * @param nature Quel est le type du terrain où ce robot est
+	 * La vitesse est diminuée de 50% en forêt.
+	 * @param nature le type du terrain où se trouve le robot 
 	 */
 	@Override
 	public double getVitesse(NatureTerrain nature) {
@@ -58,25 +58,6 @@ public class RobotAChenilles extends RobotTerrestre {
 		return RobotAChenilles.TEMPS_REMPLISSAGE;
 	}
 
-//	/**
-//	 * Déplace le robot pour la caseDesiree. La vérification si la case
-//	 * courante et la destination sont voisins est faite dans la classe de
-//	 * simulation. Le robot a de restrictions de nature (Forêt et Eau). Quand
-//	 * il y a de restrictions, le robot ne se déplace pas.
-//	 * @param caseDesiree Case pour laquelle le drone se déplace
-//	 * @throws TerrainInterditException Exception pour indiquer que le terrain
-//	 * de la caseDesiree est interdit pour ce robot
-//	 */
-//	@Override
-//	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
-//		if (carte.sontVoisins(this.getPosition(), caseDesiree))
-//			if ((caseDesiree.getNature() != NatureTerrain.EAU) &&
-//				(caseDesiree.getNature() != NatureTerrain.ROCHE))
-//				this.setPosition(caseDesiree);
-//			else
-//				throw new TerrainInterditException(caseDesiree.getNature());
-//	}
-	
 	@Override
 	public int getVolumeMaxReservoir() {
 		return RobotAChenilles.VOL_RESERVOIR;
@@ -93,7 +74,7 @@ public class RobotAChenilles extends RobotTerrestre {
 	}
 
 	/**
-	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
+	 * Renvoie un booléen pour savoir si le robot peut se deplacer ou pas
 	 * @param nature prend en entrée la nature du terrain sur laquelle il veut se deplacer.
 	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
 	 */

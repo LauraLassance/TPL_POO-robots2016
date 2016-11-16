@@ -21,7 +21,7 @@ public class RobotARoues extends RobotTerrestre {
 	/**
 	 * Crée un robot à roues dans la position donnée et avec la vitesse 
 	 * désirée.
-	 * @param position Case dans la carte où est le drone 
+	 * @param position Case dans la carte on crée le drone 
 	 * @param vitesse Vitesse de déplacement du drone
 	 */
 	public RobotARoues(Case position, double vitesse) {
@@ -37,19 +37,6 @@ public class RobotARoues extends RobotTerrestre {
 	public double getVitesse(NatureTerrain nature) {
 		return this.getVitesse();
 	}
-
-	/**
-	 * Ne peut se déplacer que sur du terrain libre ou habitat.
-	 */
-//	@Override
-//	public void seDeplacer(Case caseDesiree, Carte carte) throws TerrainInterditException {
-//		if (carte.sontVoisins(this.getPosition(), caseDesiree))
-//			if ((caseDesiree.getNature() == NatureTerrain.TERRAIN_LIBRE) || 
-//				(caseDesiree.getNature() == NatureTerrain.HABITAT))
-//				this.setPosition(caseDesiree);
-//			else
-//				throw new TerrainInterditException(caseDesiree.getNature());
-//	}
 
 	@Override
 	public TypeRobot getType() {
@@ -77,7 +64,7 @@ public class RobotARoues extends RobotTerrestre {
 	}
 
 	/**
-	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
+	 * Renvoie un booleen pour savoir si le robot peut se deplacer ou pas
 	 * @param nature prend en entrée la nature du terrain sur laquelle il veut se deplacer.
 	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
 	 */

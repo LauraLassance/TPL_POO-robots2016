@@ -10,6 +10,10 @@ public class DeversementEvenement extends Evenement {
 	
 	/** Le incendie qui va être éteint */
 	private Incendie incendie;
+        
+        public Robot getRobot() {
+            return this.robot;
+        }
 	
 	public DeversementEvenement(long date, Robot robot, Incendie incendie) {
 		super(date+robot.getTempsInterventionUnitaire()-1);

@@ -29,38 +29,14 @@ public class RobotAPattes extends RobotTerrestre {
 	}
 
 	/**
-	 * Ce robot utilise le poudre, donc sont réservoire est considéré infinit,
-	 * donc il n'a jamais rempli.
+	 * Ce robot utilise de la poudre, donc sont réservoir est considéré infinit,
+	 * donc il n'est jamais rempli.
 	 */
 	@Override
 	public void remplirReservoir(Carte carte) {
 		// Il fait rien
 	}
 
-//	/**
-//	 * Ne peut pas se rendre sur de l’eau.
-//	 * @throws PasDeCheminException Il n'y a pas de chemin possible entre 
-//	 * la position du robot et la case desirée
-//	 */
-//	@Override
-//	public void seDeplacer(Case caseDesiree, Carte carte, Simulateur simulateur) 
-//							throws TerrainInterditException, PasDeCheminException {
-//		if (carte.sontVoisins(this.getPosition(), caseDesiree)) {
-//			if (caseDesiree.getNature() != NatureTerrain.EAU)
-//				this.setPosition(caseDesiree);
-//			else
-//				throw new TerrainInterditException(caseDesiree.getNature());
-//		} else {
-//			PlusCourtCheminStrategie plusCourtChemin = 
-//					new PlusCourtCheminStrategie(
-//										simulateur.getDateSimulation(),
-//										this,
-//										carte,
-//										caseDesiree);
-//			simulateur.ajouteEvenements(plusCourtChemin.getChemin());
-//		}
-//	}
-	
 	@Override
 	public TypeRobot getType() {
 		return TypeRobot.PATTES;
@@ -101,7 +77,7 @@ public class RobotAPattes extends RobotTerrestre {
 	}
 
 	/**
-	 * Renvoie un boolean pour savoir si le robot peut se deplacer ou pas
+	 * Renvoie un booleen pour savoir si le robot peut se deplacer ou pas
 	 * @param nature prend en entrée la nature du terrain sur laquelle il veut se deplacer.
 	 * @return retourne un boolean, vrai s'il peut se deplacer, faux sinon.
 	 */

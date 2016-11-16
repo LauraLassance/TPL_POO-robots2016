@@ -9,6 +9,9 @@ import io.Simulateur;
 import robot.Robot;
 import evenement.*;
 
+/**
+ * Test de la seconde partie de l'algorithme
+ */
 public class TestRouesTerrainInterdit {
 
 	private final static int tailleSimulateur = 700;
@@ -40,7 +43,12 @@ public class TestRouesTerrainInterdit {
         }
 
 	}
-	
+        
+        /**
+          * Creer le sénario pour le test
+          * @param simulation la simulation utilisée pour la création du sénario
+         */
+        
 	private static void createScenarie(Simulateur simulation) {
 		
 		Robot robot = simulation.getDonnees().getRobots().get(0);

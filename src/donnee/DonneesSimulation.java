@@ -50,6 +50,13 @@ public class DonneesSimulation {
 		this.incendies.add(nouveauIncendie);
 	}
 	
+        /**
+         * Ajoute un robot à la carte.
+         * @param lig la ligne où le robot doit être créer
+         * @param col la colonne où le robot doit être créer
+         * @param type le type de robot
+         * @param vitesse la vitesse du robot
+         */
 	public void addRobot(int lig, int col, TypeRobot type, double vitesse) {
 		Robot robot = null;
 		switch (type) {
@@ -70,6 +77,13 @@ public class DonneesSimulation {
 		this.robots.add(robot);
 	}
 	
+        
+        /**
+         * Ajoute un robot à la carte.
+         * @param lig la ligne où le robot doit être créer
+         * @param col la colonne où le robot doit être créer
+         * @param type le type de robot
+         */
 	public void addRobot(int lig, int col, TypeRobot type) {
 		Robot robot = null;
 		switch (type) {

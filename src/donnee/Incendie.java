@@ -27,11 +27,23 @@ public class Incendie {
 			this.intensite = intensite;
 	}
 	
+        /**
+         * Simule le versement d'une certaine quantité d'eau
+         * @param vol le volume d'eau à déverser
+         */
 	public void eteindreIncendie(int vol) {
 		if (vol > this.intensite)
 			this.intensite = 0;
 		else
 			this.intensite -= vol;
 	}
+        
+        public boolean getEtatIncendie() {
+            if (intensite <= 0) {
+                return false; 
+            } else {
+                return true;
+            }
+        }
 	
 }

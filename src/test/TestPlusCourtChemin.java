@@ -24,8 +24,7 @@ import robot.Robot;
 import strategie.PlusCourtCheminStrategie;
 
 /**
- *
- * @author moi
+ * Test l'algorithme de plus court chemin
  */
 public class TestPlusCourtChemin {
     	private final static int tailleSimulateur = 700;
@@ -57,16 +56,15 @@ public class TestPlusCourtChemin {
         }
 
 	}
-        
+    /**
+     * Creer le sénario pour le test
+     * @param simulation la simulation utilisée pour la création du sénario
+     */    
     	private static void createScenarie(Simulateur simulation) {
     		int date = 1;
     		Robot robot = simulation.getDonnees().getRobots().get(1);
             Carte carte = simulation.getDonnees().getCarte();
             Case dest = simulation.getDonnees().getIncendies().get(0).getLocalisation();
-//            PlusCourtCheminStrategie calculChemin;
-//            calculChemin = new PlusCourtCheminStrategie(date, robot, carte, dest);
-//			
-//			simulation.ajouteEvenements(CalculChemin.getEvenements());
             simulation.ajouteEvenement(
             		new DeplacerEvenement(date++,
             							  robot,
@@ -80,5 +78,6 @@ public class TestPlusCourtChemin {
             							  carte,
             							  simulation,
             							  simulation.getDonnees().getCarte().getCase(5, 8)));
+            
 	}
 }

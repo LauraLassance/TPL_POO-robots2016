@@ -14,6 +14,11 @@ public enum Direction {
             EST.oppose = OUEST;
             OUEST.oppose = EST;
         }
+        
+        /**
+         * Methode permettant d'inverser la direction.
+         * @return la direction opposée.
+         */
         public Direction inverserDir() {
             return oppose;
         }

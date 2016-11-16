@@ -9,6 +9,9 @@ import io.Simulateur;
 import robot.Robot;
 import evenement.*;
 
+/**
+ * Test le premier senario du sujet
+ */
 public class TestScenario1Partie2 {
 
 	private final static int tailleSimulateur = 700;
@@ -41,6 +44,11 @@ public class TestScenario1Partie2 {
 
 	}
 	
+      /**
+     * Creer le sénario pour le test
+     * @param simulation la simulation utilisée pour la création du sénario
+     */
+        
 	private static void createScenarie(Simulateur simulation) {
 		
 		Robot robot = simulation.getDonnees().getRobots().get(0);

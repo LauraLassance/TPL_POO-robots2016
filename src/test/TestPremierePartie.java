@@ -6,6 +6,9 @@ import java.util.zip.DataFormatException;
 import gui.GUISimulator;
 import io.Simulateur;
 
+/**
+ * Test de la première partie du projet
+ */
 public class TestPremierePartie {
 	
 	private final static int tailleSimulateur = 600;

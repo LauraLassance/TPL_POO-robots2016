@@ -64,7 +64,7 @@ public abstract class Robot {
 
 	/**
 	 * Deverse le volume d'eau définit pour une intervention unitaire.
-	 * @return le volume d'eau vraiment deversé
+	 * @return le volume d'eau deversé
 	 */
 	public abstract int deverserEauIntervUnit();
 	
