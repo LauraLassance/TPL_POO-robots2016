@@ -3,8 +3,11 @@ package robot;
 import donnee.Carte;
 import donnee.Case;
 import donnee.NatureTerrain;
+import exception.PasDeCheminException;
 import exception.ReservoirPleinException;
 import exception.TerrainInterditException;
+import io.Simulateur;
+import strategie.PlusCourtCheminStrategie;
 
 public abstract class Robot {
 	private Case position;
@@ -32,7 +35,24 @@ public abstract class Robot {
 	
 	public abstract boolean peutSeDeplacer(NatureTerrain nature);
 	
-	public abstract void seDeplacer(Case caseDesire, Carte carte) throws TerrainInterditException;
+	public void seDeplacer(Case caseDesiree, Carte carte, Simulateur simulateur) throws TerrainInterditException, PasDeCheminException {
+		if (simulateur == null) {
+			if (carte.sontVoisins(this.getPosition(), caseDesiree)) {
+				if (this.peutSeDeplacer(caseDesiree.getNature()))
+					this.setPosition(caseDesiree);
+				else
+					throw new TerrainInterditException(caseDesiree.getNature());
+			} 
+		} else {
+			PlusCourtCheminStrategie plusCourtChemin = 
+					new PlusCourtCheminStrategie(
+										simulateur.getDateSimulation(),
+										this,
+										carte,
+										caseDesiree);
+			simulateur.ajouteEvenements(plusCourtChemin.getChemin());
+		}
+	}
 	
 	public abstract int getTempsInterventionUnitaire();
 	

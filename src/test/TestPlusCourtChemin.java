@@ -63,10 +63,21 @@ public class TestPlusCourtChemin {
     		Robot robot = simulation.getDonnees().getRobots().get(1);
             Carte carte = simulation.getDonnees().getCarte();
             Case dest = simulation.getDonnees().getIncendies().get(0).getLocalisation();
-            PlusCourtCheminStrategie calculChemin;
-            calculChemin = new PlusCourtCheminStrategie(date, robot, carte, dest);
-			simulation.ajouteEvenement(calculChemin);
+//            PlusCourtCheminStrategie calculChemin;
+//            calculChemin = new PlusCourtCheminStrategie(date, robot, carte, dest);
+//			
 //			simulation.ajouteEvenements(CalculChemin.getEvenements());
-            
+            simulation.ajouteEvenement(
+            		new DeplacerEvenement(date++,
+            							  robot,
+            							  carte,
+            							  simulation,
+            							  dest));
+            simulation.ajouteEvenement(
+            		new DeplacerEvenement(date++,
+            							  robot,
+            							  carte,
+            							  simulation,
+            							  simulation.getDonnees().getCarte().getCase(5, 8)));
 	}
 }

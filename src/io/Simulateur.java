@@ -49,8 +49,8 @@ public class Simulateur implements Simulable {
     
     /** La date courante de simulation */
     private long dateSimulation;
-    
-    /** La liste d'évènements de la simulation */
+
+	/** La liste d'évènements de la simulation */
     private List<Evenement> evenements;
     
     /** L'index qui garde quel est le prochain évènement */
@@ -285,7 +285,10 @@ public class Simulateur implements Simulable {
     }
     
     public DonneesSimulation getDonnees() {
-		return donnees;
-	}
+    	return this.donnees;
+    }
     
+    public long getDateSimulation() {
+		return dateSimulation;
+	}
 }
