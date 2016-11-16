@@ -10,11 +10,13 @@ import donnee.NatureTerrain;
 import evenement.DeplacerEvenement;
 import evenement.Evenement;
 import exception.DehorsDeLaFrontiereException;
+import exception.PasDeCheminException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import robot.Robot;
 
-public class PlusCourtCheminStrategie extends Evenement implements MouvementStrategie {
+public class PlusCourtCheminStrategie extends Evenement implements AffectationStrategie {
 	
 	/** Le robot qui va se déplacer */
 	private Robot robot;
@@ -57,8 +59,6 @@ public class PlusCourtCheminStrategie extends Evenement implements MouvementStra
 		this.cout = new ArrayList<>();
         this.predecesseur = new ArrayList <>();
         this.marque = new ArrayList<>();
-        calculChemin();
-        creerEvenementUnit();
    	}
 	
 	private void initialiserDjikstra() {
@@ -155,7 +155,7 @@ public class PlusCourtCheminStrategie extends Evenement implements MouvementStra
     }
         
 	@Override
-	public void calculChemin() {
+	public void calculChemin() throws PasDeCheminException {
         initialiserDjikstra();
         Case suivant = robot.getPosition();
         Direction dir;
@@ -186,13 +186,19 @@ public class PlusCourtCheminStrategie extends Evenement implements MouvementStra
         */
 	} 
         
-    private void setChemin() {
+    private void setChemin() throws PasDeCheminException {
         Case suivant = this.dest;
         System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
         while (!suivant.equals(robot.getPosition())) {
-            chemin.add(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-            //System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
-            suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()).inverserDir());
+            Direction d = predecesseur.get(suivant.getLigne()).get(suivant.getColonne());
+            /** S'il y a un chemin possible pour cette arête */
+            if (d != null) { 
+            	chemin.add(d);
+	            //System.out.println(predecesseur.get(suivant.getLigne()).get(suivant.getColonne()));
+	            suivant = carte.getVoisin(suivant, predecesseur.get(suivant.getLigne()).get(suivant.getColonne()).inverserDir());
+            } else {
+            	throw new PasDeCheminException(this.dest);
+            }
         }
     }
 	
@@ -210,8 +216,11 @@ public class PlusCourtCheminStrategie extends Evenement implements MouvementStra
     }
 
     @Override
-    public void execute() throws DehorsDeLaFrontiereException {
-        for (int i = 0; i < evenements.size(); i++) {
+    public void execute() throws DehorsDeLaFrontiereException, PasDeCheminException {
+    	calculChemin();
+        creerEvenementUnit();
+        
+    	for (int i = 0; i < evenements.size(); i++) {
             try {
                 evenements.get(i).execute();
             } catch (Exception ex) {

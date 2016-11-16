@@ -11,11 +11,15 @@ import donnee.Direction;
 import evenement.DeplacerEvenement;
 import evenement.DeversementEvenement;
 import evenement.RemplirEvenement;
+import exception.PasDeCheminException;
 import gui.GUISimulator;
 import io.Simulateur;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
+
+import javax.swing.JOptionPane;
+
 import robot.Robot;
 import strategie.PlusCourtCheminStrategie;
 
@@ -59,7 +63,10 @@ public class TestPlusCourtChemin {
     		Robot robot = simulation.getDonnees().getRobots().get(0);
             Carte carte = simulation.getDonnees().getCarte();
             Case dest = simulation.getDonnees().getIncendies().get(0).getLocalisation();
-            PlusCourtCheminStrategie CalculChemin = new PlusCourtCheminStrategie(date, robot, carte, dest);
-            simulation.ajouteEvenements(CalculChemin.getEvenements());
+            PlusCourtCheminStrategie calculChemin;
+            calculChemin = new PlusCourtCheminStrategie(date, robot, carte, dest);
+			simulation.ajouteEvenement(calculChemin);
+//			simulation.ajouteEvenements(CalculChemin.getEvenements());
+            
 	}
 }
