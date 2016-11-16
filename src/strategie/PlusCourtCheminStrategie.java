@@ -33,7 +33,7 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
 	private long date;
         
     /**Représente l'infini */
-    private Double infini = 1000000.0;
+    private Double infini = Double.MAX_VALUE;
     
     private List<List<Boolean>> marque;
         
@@ -124,8 +124,6 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
 
                 	cout.get(v.getLigne()).set(v.getColonne(), tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne()));
                 	predecesseur.get(v.getLigne()).set(v.getColonne(), d);
-                	if (current.getLigne() == 7 && current.getColonne() == 0)
-                		System.out.println(predecesseur.get(v.getLigne()).get(v.getColonne()));
                 }
             }
         }
@@ -145,7 +143,8 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
     public Case getCaseNonTraite() {
          for (int i = 0; i < marque.size(); i++) {
              for (int j = 0; j < marque.get(i).size(); j++) {   
-                 if (marque.get(i).get(j) == false) {
+                 if (marque.get(i).get(j) == false && 
+                            cout.get(i).get(j) < infini) {
                      return carte.getCase(i,j);
                  }
              }
@@ -157,17 +156,15 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
         initialiserDjikstra();
         Case suivant = robot.getPosition();
         Direction dir;
-        int iteration = 0;
         int nbCase = carte.getNbColonnes() * carte.getNbLignes();
         while (!isEmpty()) {
             //System.out.println(suivant.getColonne());
             //System.out.println(suivant.getLigne());
-            iteration++;
             dir = minimum(suivant);
             //System.out.println(dir);
+            coutAJour(suivant);
             marque.get(suivant.getLigne()).set(suivant.getColonne(), Boolean.TRUE);
             if (dir != null) {
-            	coutAJour(suivant);
             	suivant = carte.getVoisin(suivant, dir);
             } else {
                 suivant = getCaseNonTraite();
@@ -186,7 +183,7 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
         
     private void setChemin() throws PasDeCheminException {
         Case suivant = this.dest;
-        System.out.println("robot:x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
+        System.out.println(robot.getType()+":x"+ robot.getPosition().getLigne() + "y"+robot.getPosition().getColonne());
         while (!suivant.equals(robot.getPosition())) {
             Direction d = predecesseur.get(suivant.getLigne()).get(suivant.getColonne());
             /** S'il y a un chemin possible pour cette arête */

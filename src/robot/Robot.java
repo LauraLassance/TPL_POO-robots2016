@@ -36,11 +36,13 @@ public abstract class Robot {
 	public abstract boolean peutSeDeplacer(NatureTerrain nature);
 	
 	public void seDeplacer(Case caseDesiree, Carte carte, Simulateur simulateur) throws TerrainInterditException, PasDeCheminException {
-		if (carte.sontVoisins(this.getPosition(), caseDesiree)) {
-			if (this.peutSeDeplacer(caseDesiree.getNature()))
-				this.setPosition(caseDesiree);
-			else
-				throw new TerrainInterditException(caseDesiree.getNature());
+		if (simulateur == null) {
+			if (carte.sontVoisins(this.getPosition(), caseDesiree)) {
+				if (this.peutSeDeplacer(caseDesiree.getNature()))
+					this.setPosition(caseDesiree);
+				else
+					throw new TerrainInterditException(caseDesiree.getNature());
+			} 
 		} else {
 			PlusCourtCheminStrategie plusCourtChemin = 
 					new PlusCourtCheminStrategie(
