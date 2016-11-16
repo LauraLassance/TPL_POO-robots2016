@@ -30,7 +30,7 @@ testInvader:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/test/TestLecteurDonnees.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestLecteurDonnees.java
 
 testPremierePartie:
 	javac -d bin -classpath bin/gui.jar -sourcepath src src/test/TestPremierePartie.java
