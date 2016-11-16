@@ -73,9 +73,10 @@ public class TestPlusCourtChemin {
             							  carte,
             							  simulation,
             							  dest));
+            Robot robot2 = simulation.getDonnees().getRobots().get(0);
             simulation.ajouteEvenement(
             		new DeplacerEvenement(date++,
-            							  robot,
+            							  robot2,
             							  carte,
             							  simulation,
             							  simulation.getDonnees().getCarte().getCase(5, 8)));

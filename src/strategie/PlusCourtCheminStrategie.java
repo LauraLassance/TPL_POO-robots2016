@@ -117,7 +117,11 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
                 Case v = carte.getVoisin(current, d);
                 //System.out.println("cout"+cout.get(v.getLigne()).get(v.getColonne()));
                 //System.out.println("cout"+tempsNecessaireUnit(v) +" "+ cout.get(current.getLigne()).get(current.getColonne()));
+<<<<<<< HEAD
                 if (cout.get(v.getLigne()).get(v.getColonne()) >
+=======
+                if (cout.get(v.getLigne()).get(v.getColonne()) >
+>>>>>>> ae7b41226564816b3760f8a30f830f73b2877166
                         tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne())) {
 
                 	cout.get(v.getLigne()).set(v.getColonne(), tempsNecessaireUnit(v) + cout.get(current.getLigne()).get(current.getColonne()));
@@ -141,7 +145,6 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
     public Case getCaseNonTraite() {
          for (int i = 0; i < marque.size(); i++) {
              for (int j = 0; j < marque.get(i).size(); j++) {
-
                  if (marque.get(i).get(j) == false && cout.get(i).get(j) < infini) {
                      return carte.getCase(i,j);
                  }
@@ -159,7 +162,6 @@ public class PlusCourtCheminStrategie implements AffectationStrategie {
             //System.out.println(suivant.getColonne());
             //System.out.println(suivant.getLigne());
             dir = minimum(suivant);
-
             //System.out.println(dir);
             //System.out.println(suivant.getLigne() + " " + suivant.getColonne());
             coutAJour(suivant);
